@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waiheke High School Camps Portal | EOTC & Outdoor Leadership</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            whsNavy: { 950: '#060F1E', 900: '#0A1E3F', 800: '#0F2B56', 700: '#173B6E' },
+            whsBlue: { 600: '#005691', 500: '#0066B2', 400: '#1A82D8', 100: '#EBF4FC', 50: '#F4F8FD' },
+            whsSky: { 400: '#4A90E2', 300: '#7EC8E3', 100: '#E0F2FE' },
+            whsSurface: { 0: '#FFFFFF', 50: '#F4F7FA', 100: '#EAEFF5' }
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif'],
+            cultural: ['Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      height: 300px;
+      max-height: 380px;
+    }
+    @media (min-width: 768px) {
+      .chart-container {
+        height: 340px;
+      }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #94A3B8;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #64748B;
+    }
+  </style>
+</head>
+
+<body class="bg-whsSurface-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-whsBlue-500 selection:text-white">
+
+  <!-- Operational Alert Banner -->
+  <div id="emergency-banner" class="bg-whsNavy-900 text-white text-xs sm:text-sm py-2 px-4 shadow-inner transition-all duration-300 border-b border-whsNavy-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-whsSky-300 animate-pulse"></span>
+        <span class="font-bold tracking-wide uppercase text-[11px] bg-whsNavy-800 text-whsSky-300 px-2 py-0.5 rounded border border-whsBlue-600">EOTC Status</span>
+        <span id="banner-message" class="font-medium">All camp programs operating normally across Hauraki Gulf / Tīkapa Moana.</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="toggleNoticeState()" class="underline text-xs text-whsSky-300 hover:text-white transition focus:outline-none focus:ring-1 focus:ring-whsSky-300 rounded px-1">Toggle Advisory</button>
+        <button onclick="switchTab('camp-y10')" class="bg-whsBlue-600 hover:bg-whsBlue-500 text-white px-2.5 py-1 rounded text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-white">Year 10 Aotea Camp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main School Header & Top Selection Bar -->
+  <header class="bg-whsNavy-950 text-white sticky top-0 z-40 shadow-md border-b border-whsNavy-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-24">
+        
+        <!-- Brand identity with official WHS Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home')">
+          <div class="h-16 w-16 bg-white rounded-lg p-1.5 flex items-center justify-center shadow-md border border-whsBlue-400 flex-shrink-0">
+            <img src="https://www.waihekehigh.school.nz/wp-content/uploads/2021/04/Waiheke-High-School-Logo.png" 
+                 alt="Waiheke High School Crest Logo" 
+                 class="max-h-full max-w-full object-contain"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="hidden w-full h-full rounded bg-whsNavy-900 text-white font-bold text-xs items-center justify-center text-center">
+              WHS LOGO
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="font-display font-extrabold text-lg sm:text-xl tracking-tight text-white leading-tight">Waiheke High School</h1>
+              <span class="bg-whsBlue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wider uppercase border border-whsBlue-400">Camps Portal</span>
+            </div>
+            <p class="text-xs text-whsSky-300 font-cultural italic">"Whāia te pae tawhiti" — Education Outside the Classroom</p>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Bar -->
+        <nav class="hidden lg:flex items-center space-x-2" aria-label="Camp Navigation">
+          <button onclick="switchTab('home')" id="nav-home" class="tab-btn px-3 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition text-white bg-whsNavy-800 border-b-2 border-whsSky-400">
+            Home / About
+          </button>
+          <button onclick="switchTab('camp-y7')" id="nav-camp-y7" class="tab-btn px-3 py-2 rounded-md text-xs font-bold uppercase tracking-wider text-whsBlue-100 hover:text-white hover:bg-whsNavy-800 transition">
+            Year 7 Camp
+          </button>
+          <button onclick="switchTab('camp-y8')" id="nav-camp-y8" class="tab-btn px-3 py-2 rounded-md text-xs font-bold uppercase tracking-wider text-whsBlue-100 hover:text-white hover:bg-whsNavy-800 transition">
+            Year 8 Camp
+          </button>
+          <button onclick="switchTab('camp-y9')" id="nav-camp-y9" class="tab-btn px-3 py-2 rounded-md text-xs font-bold uppercase tracking-wider text-whsBlue-100 hover:text-white hover:bg-whsNavy-800 transition">
+            Year 9 Camp
+          </button>
+          <button onclick="switchTab('camp-y10')" id="nav-camp-y10" class="tab-btn px-3 py-2 rounded-md text-xs font-bold uppercase tracking-wider text-whsBlue-100 hover:text-white hover:bg-whsNavy-800 transition">
+            Year 10 Camp
+          </button>
+        </nav>
+
+        <!-- Mobile Menu Toggle Button -->
+        <div class="lg:hidden">
+          <button onclick="toggleMobileMenu()" id="mobile-menu-btn" aria-expanded="false" aria-controls="mobile-menu" class="p-2 rounded-md text-whsSky-300 hover:text-white hover:bg-whsNavy-800 focus:outline-none focus:ring-2 focus:ring-whsSky-300">
+            <span class="sr-only">Open camp navigation</span>
+            <div class="w-6 h-0.5 bg-current mb-1.5"></div>
+            <div class="w-6 h-0.5 bg-current mb-1.5"></div>
+            <div class="w-6 h-0.5 bg-current"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-whsNavy-900 border-t border-whsNavy-800 px-4 pt-2 pb-4 space-y-1">
+      <button onclick="switchTab('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-md text-sm font-bold text-white bg-whsNavy-800">Home / Overview & Themes</button>
+      <button onclick="switchTab('camp-y7'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-md text-sm font-bold text-whsBlue-100 hover:bg-whsNavy-800 hover:text-white">Year 7 Camp (Whakanewha)</button>
+      <button onclick="switchTab('camp-y8'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-md text-sm font-bold text-whsBlue-100 hover:bg-whsNavy-800 hover:text-white">Year 8 Camp (Motuihe Island)</button>
+      <button onclick="switchTab('camp-y9'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-md text-sm font-bold text-whsBlue-100 hover:bg-whsNavy-800 hover:text-white">Year 9 Camp (Motutapu MOEC)</button>
+      <button onclick="switchTab('camp-y10'); toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-md text-sm font-bold text-whsBlue-100 hover:bg-whsNavy-800 hover:text-white">Year 10 Camp (Aotea GBI Expedition)</button>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- SECTION 1: HOME, 4 THEMES & ABOUT WHS -->
+    <section id="tab-home" class="space-y-10">
+      
+      <!-- Hero Banner -->
+      <div class="bg-gradient-to-r from-whsNavy-950 via-whsNavy-900 to-whsBlue-600 rounded-2xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden border border-whsNavy-800">
+        <div class="relative z-10 max-w-4xl space-y-4">
+          <div class="inline-flex items-center gap-2 bg-whsBlue-500/30 border border-whsSky-300/40 text-whsSky-300 px-3 py-1 rounded-full text-xs font-semibold">
+            <span>⛵ Outdoor Education & Leadership Portal</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-display font-extrabold tracking-tight leading-tight text-white">
+            Waiheke High School Year Group Camps
+          </h2>
+          <p class="text-whsBlue-100 text-sm sm:text-base leading-relaxed max-w-3xl">
+            Welcome to the centralised digital hub for Waiheke High School's camp programs. Select any of our four Year Group Camps from the navigation menu to explore camp goals, activity summaries, equipment packing checklists, digital SchoolApps consent forms, safety protocols, and official park links.
+          </p>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button onclick="switchTab('camp-y7')" class="bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-lg transition shadow-md border border-whsBlue-400">
+              Year 7 Whakanewha
+            </button>
+            <button onclick="switchTab('camp-y8')" class="bg-whsNavy-800 hover:bg-whsNavy-700 text-whsSky-300 border border-whsBlue-500 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-lg transition shadow-md">
+              Year 8 Motuihe Island
+            </button>
+            <button onclick="switchTab('camp-y9')" class="bg-whsSky-400 hover:bg-whsBlue-500 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-lg transition shadow-md">
+              Year 9 Motutapu
+            </button>
+            <button onclick="switchTab('camp-y10')" class="bg-white text-whsNavy-950 hover:bg-whsBlue-50 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-lg transition shadow-md">
+              Year 10 Aotea GBI
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 THEMES IN CLEAR BOXES GRID -->
+      <div class="space-y-4">
+        <div class="border-b border-whsBlue-100 pb-2">
+          <h3 class="text-2xl font-display font-bold text-whsNavy-900">Foundational School Pillars & Culture</h3>
+          <p class="text-xs sm:text-sm text-slate-600">The four core themes guiding student growth, outdoor learning, and character development at Waiheke High School.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Box 1: Our Vision -->
+          <div class="bg-white rounded-2xl p-6 border-2 border-whsBlue-600 shadow-sm hover:shadow-lg transition space-y-3 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xl">⛵</span>
+              </div>
+              <h4 class="font-display font-extrabold text-lg text-whsNavy-900 border-b border-whsBlue-50 pb-2">Our Vision</h4>
+              <div class="space-y-2">
+                <span class="inline-block bg-whsBlue-100 text-whsNavy-900 text-xs font-bold px-2.5 py-1 rounded-md">Inspired Learners</span>
+                <span class="inline-block bg-whsBlue-100 text-whsNavy-900 text-xs font-bold px-2.5 py-1 rounded-md">Proud Learners</span>
+              </div>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed font-cultural italic pt-3 border-t border-slate-100">
+              "We are the waka that guides our rangatahi on their individual journey to success."
+            </p>
+          </div>
+
+          <!-- Box 2: Whakataukī -->
+          <div class="bg-white rounded-2xl p-6 border-2 border-whsNavy-800 shadow-sm hover:shadow-lg transition space-y-3 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xl">🌿</span>
+              </div>
+              <h4 class="font-display font-extrabold text-lg text-whsNavy-900 border-b border-whsBlue-50 pb-2">Whakataukī</h4>
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100">
+                <p class="font-cultural font-bold text-sm text-whsNavy-900">Whāia te pae tawhiti.</p>
+              </div>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed font-cultural italic pt-3 border-t border-slate-100">
+              "Pursue your goals to the furthest horizon."
+            </p>
+          </div>
+
+          <!-- Box 3: WISE Values -->
+          <div class="bg-white rounded-2xl p-6 border-2 border-whsSky-400 shadow-sm hover:shadow-lg transition space-y-3 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xl">⭐</span>
+              </div>
+              <h4 class="font-display font-extrabold text-lg text-whsNavy-900 border-b border-whsBlue-50 pb-2">WISE Values</h4>
+              <ul class="space-y-1.5 text-xs text-slate-700 font-semibold">
+                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>Whanaungatanga</li>
+                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>Independence</li>
+                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>School Culture</li>
+                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>Excellence</li>
+              </ul>
+            </div>
+            <p class="text-[11px] text-slate-500 leading-tight pt-2 border-t border-slate-100">
+              Core values embedded across all camp environments.
+            </p>
+          </div>
+
+          <!-- Box 4: The Waiheke Way -->
+          <div class="bg-white rounded-2xl p-6 border-2 border-whsNavy-950 shadow-sm hover:shadow-lg transition space-y-3 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xl">🤝</span>
+              </div>
+              <h4 class="font-display font-extrabold text-lg text-whsNavy-900 border-b border-whsBlue-50 pb-2">The Waiheke Way</h4>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bg-whsBlue-100 text-whsNavy-900 text-[11px] font-bold px-2 py-0.5 rounded">Ready</span>
+                <span class="bg-whsBlue-100 text-whsNavy-900 text-[11px] font-bold px-2 py-0.5 rounded">Respectful</span>
+                <span class="bg-whsBlue-100 text-whsNavy-900 text-[11px] font-bold px-2 py-0.5 rounded">Safe</span>
+              </div>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed pt-3 border-t border-slate-100">
+              "The Waiheke Way is centred around the three aspirations of being ready, respectful and safe and was developed in consultation with staff and students at WHS."
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ABOUT WAIHEKE HIGH SECTION -->
+      <div class="bg-white rounded-2xl p-8 border border-whsBlue-100 shadow-sm space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-whsBlue-50 pb-4">
+          <div class="space-y-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-whsBlue-600">School Identity & Profile</span>
+            <h3 class="text-2xl font-display font-extrabold text-whsNavy-900">About Waiheke High</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="bg-whsNavy-900 text-white text-xs font-bold px-3 py-1 rounded-full">Est. 1986</span>
+            <span class="bg-whsBlue-600 text-white text-xs font-bold px-3 py-1 rounded-full">Years 7–13</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-8 space-y-4 text-slate-700 text-sm leading-relaxed">
+            <p class="p-4 bg-whsBlue-50 rounded-xl border-l-4 border-l-whsBlue-600 font-medium text-whsNavy-900 text-base">
+              Established in 1986, Waiheke High School is the only island based high school in New Zealand and caters for students from years 7-13.
+            </p>
+            <p class="p-4 bg-whsBlue-50 rounded-xl border-l-4 border-l-whsNavy-800 font-medium text-whsNavy-900 text-base">
+              In a relatively short time, we have accomplished an enviable academic record, recognising the top overall scholar and top Māori student of New Zealand as just some of our students’ outstanding successes.
+            </p>
+            <p class="text-xs text-slate-600">
+              Located in the pristine environment of the Hauraki Gulf / Tīkapa Moana, Waiheke High School leverages its unique island setting to provide world-class Education Outside the Classroom (EOTC). Our outdoor programmes build resilience, environmental kaitiakitanga, and leadership skills across every year level.
+            </p>
+          </div>
+
+          <div class="lg:col-span-4 bg-whsNavy-900 text-white p-6 rounded-2xl space-y-4 shadow-md border border-whsNavy-800">
+            <h4 class="font-display font-bold text-base text-whsSky-300 border-b border-whsNavy-800 pb-2">Key School Statistics</h4>
+            <div class="space-y-3 text-xs">
+              <div class="flex justify-between items-center border-b border-whsNavy-800 pb-2">
+                <span class="text-whsBlue-100">Foundation Year</span>
+                <span class="font-bold text-white text-sm">1986</span>
+              </div>
+              <div class="flex justify-between items-center border-b border-whsNavy-800 pb-2">
+                <span class="text-whsBlue-100">School Type</span>
+                <span class="font-bold text-white text-sm">NZ's Only Island High School</span>
+              </div>
+              <div class="flex justify-between items-center border-b border-whsNavy-800 pb-2">
+                <span class="text-whsBlue-100">Year Group Range</span>
+                <span class="font-bold text-white text-sm">Year 7 to Year 13</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-whsBlue-100">Academic Honours</span>
+                <span class="font-bold text-whsSky-300 text-sm">Top NZ Scholar & Top Māori Student</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progression Matrix -->
+      <div class="bg-white rounded-2xl p-6 border border-whsBlue-100 shadow-sm space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-whsBlue-50 pb-4">
+          <div>
+            <h3 class="text-xl font-display font-bold text-whsNavy-900">Four-Year Camp Progression & Physical Challenge Matrix</h3>
+            <p class="text-xs text-slate-500">Comparative assessment of physical demand, elevation gain, duration, and remote risk across Year 7–10 camp experiences.</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="updateProgressionChart('radar')" class="px-3 py-1.5 text-xs font-semibold rounded bg-whsNavy-900 text-white hover:bg-whsNavy-800 transition">Radar Chart</button>
+            <button onclick="updateProgressionChart('bar')" class="px-3 py-1.5 text-xs font-semibold rounded bg-whsBlue-100 text-whsNavy-900 hover:bg-whsBlue-200 transition">Bar Chart</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-7">
+            <div class="chart-container">
+              <canvas id="progressionChart"></canvas>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-3 bg-whsBlue-50 p-4 rounded-xl border border-whsBlue-100">
+            <h4 class="font-bold text-sm text-whsNavy-900 flex items-center gap-1.5">
+              <span>📈</span> <span>Scaffolded Four-Year Journey</span>
+            </h4>
+            <div class="space-y-2 text-xs text-slate-600 leading-relaxed">
+              <div class="p-2.5 bg-white rounded border border-whsBlue-100 cursor-pointer hover:border-whsBlue-600 transition" onclick="switchTab('camp-y7')">
+                <strong class="text-whsBlue-600">Year 7 (Whakanewha):</strong> Whanaungatanga, 2-day campsite setup, teambuilding & relationships.
+              </div>
+              <div class="p-2.5 bg-white rounded border border-whsBlue-100 cursor-pointer hover:border-whsNavy-800 transition" onclick="switchTab('camp-y8')">
+                <strong class="text-whsNavy-800">Year 8 (Motuihe Island):</strong> Kaitiakitanga, 3-day sanctuary living, Mau Rākau, fishing & teambuilding.
+              </div>
+              <div class="p-2.5 bg-white rounded border border-whsBlue-100 cursor-pointer hover:border-whsSky-400 transition" onclick="switchTab('camp-y9')">
+                <strong class="text-whsSky-400">Year 9 (Motutapu MOEC):</strong> Kotahitanga, 4-day abseiling, WWII history, high ropes challenge.
+              </div>
+              <div class="p-2.5 bg-white rounded border border-whsBlue-100 cursor-pointer hover:border-whsNavy-950 transition" onclick="switchTab('camp-y10')">
+                <strong class="text-whsNavy-950">Year 10 (Aotea GBI):</strong> Kaha, 5-day remote tramp over Mt Hobson (621m), dark sky exploration.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 2: YEAR 7 CAMP -->
+    <section id="tab-camp-y7" class="hidden space-y-8">
+      <div class="bg-gradient-to-r from-whsNavy-900 via-whsNavy-800 to-whsBlue-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Year 7 Camp</span>
+            <span class="bg-whsBlue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">2 Days / 1 Night</span>
+            <span class="bg-whsNavy-950 text-white text-xs font-bold px-3 py-1 rounded-full uppercase border border-whsSky-300">Poukaraka Flats</span>
+          </div>
+          <a href="https://www.aucklandcouncil.govt.nz/en/parks-recreation/find-park-beach/park-detail/3422.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-white text-whsNavy-950 hover:bg-whsBlue-50 font-bold text-xs px-3 py-1.5 rounded-lg transition shadow">
+            <span>Auckland Council Whakanewha Park Info</span>
+            <span>↗</span>
+          </a>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-white">Year 7 Whakanewha Regional Park Camp</h2>
+        <p class="text-whsBlue-100 text-sm max-w-3xl leading-relaxed">
+          The foundational Year 7 camp introduces students to tent camping, teambuilding, outdoor safety fundamentals, and building positive relationships at Whakanewha Regional Park on Waiheke Island.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsBlue-600 shadow-sm space-y-3">
+        <div class="flex items-center gap-2 border-b border-whsBlue-100 pb-2">
+          <span class="text-xl">🤝</span>
+          <h3 class="font-display font-extrabold text-lg text-whsNavy-900">Trip Goals — Whanaungatanga</h3>
+        </div>
+        <p class="font-cultural italic font-bold text-whsBlue-600 text-sm">
+          Whanaungatanga: An introduction to positive relationships at WHS
+        </p>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-700 pt-1">
+          <li class="flex items-center gap-2 bg-whsBlue-50 p-2.5 rounded-lg border border-whsBlue-100">
+            <span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>
+            <span>Teambuilding, meeting whānau, teachers and prefects</span>
+          </li>
+          <li class="flex items-center gap-2 bg-whsBlue-50 p-2.5 rounded-lg border border-whsBlue-100">
+            <span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>
+            <span>Historic & cultural significance of Whakanewha / Waiheke</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Location</span>
+          <span class="text-sm font-extrabold text-whsNavy-900">Whakanewha Regional Park</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Key Focus</span>
+          <span class="text-sm font-extrabold text-whsBlue-600">Teambuilding & Relationships</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">WISE Values</span>
+          <span class="text-sm font-extrabold text-whsNavy-800">Whanaungatanga & Respect</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Physical Demand</span>
+          <span class="text-sm font-extrabold text-slate-700">Level 2 / 10 (Introductory)</span>
+        </div>
+      </div>
+
+      <div class="bg-amber-50 border-2 border-amber-300 p-4 rounded-xl text-xs space-y-1.5 text-amber-950">
+        <div class="flex items-center gap-2 font-bold text-sm text-amber-900">
+          <span>⚠️</span>
+          <span>Important Year 7 Arrival & Meeting Instructions</span>
+        </div>
+        <p class="leading-relaxed">
+          <strong>Meeting Point:</strong> Please note there is no school bus transport provided. Students must meet directly at Whakanewha Regional Park campsite.
+        </p>
+        <p class="leading-relaxed font-semibold">
+          📌 Please read the permission slip carefully for specific information regarding drop-off times, collection details, and exact meeting locations.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-whsNavy-900 text-white p-6 rounded-2xl border border-whsNavy-800 shadow-md flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="bg-whsBlue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Mandatory Permission</span>
+              <span class="text-xl">📱</span>
+            </div>
+            <h4 class="font-display font-bold text-lg text-whsSky-300">Year 7 SchoolApps Consent Form</h4>
+            <p class="text-xs text-whsBlue-100 leading-relaxed">
+              All digital permission slips, medical declarations, and emergency contact details for the Year 7 Whakanewha camp must be submitted via SchoolApps NZ prior to departure.
+            </p>
+          </div>
+          <a href="https://schoolappsnz.co.nz/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition shadow text-center w-full">
+            <span>Complete Consent Form on SchoolApps</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-3">
+          <h4 class="font-display font-bold text-base text-whsNavy-900 border-b border-whsBlue-50 pb-2 flex items-center justify-between">
+            <span>🎒 Student Equipment List</span>
+            <span class="text-xs font-normal text-slate-500">Year 7 Whakanewha Checklist</span>
+          </h4>
+          <div class="max-h-72 overflow-y-auto pr-1 custom-scrollbar space-y-1.5 text-xs text-slate-700">
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Tops x3 (including warm ones)</span><span class="font-semibold text-whsBlue-600">x3</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Pants / leggings</span><span class="font-semibold text-whsBlue-600">x2</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Jumpers / jackets</span><span class="font-semibold text-whsBlue-600">x1</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Rain jacket / waterproof jacket</span><span class="font-semibold text-whsBlue-600">x1</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Socks</span><span class="font-semibold text-whsBlue-600">x2</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Pajamas</span><span class="font-semibold text-whsBlue-600">x1</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Sun hat</span><span class="font-semibold text-whsBlue-600">x1</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Towel</span><span class="font-semibold text-whsBlue-600">x1</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Swimwear</span><span class="font-semibold text-whsBlue-600">x1</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Shoes (appropriate for walking)</span><span class="font-semibold text-whsBlue-600">x2</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Underwear (enough for two days)</span><span class="font-semibold text-whsBlue-600">2 Days</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Shorts (your choice)</span><span class="font-semibold text-whsBlue-600">Required</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Personal Toiletries</span><span class="font-semibold text-whsBlue-600">Required</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Torch and Drink bottle</span><span class="font-semibold text-whsBlue-600">Required</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Sleeping bag, pillow, sleeping mat</span><span class="font-semibold text-whsBlue-600">Required</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Own Cutlery Set</span><span class="font-semibold text-whsBlue-600">Required Set</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-whsBlue-50 pb-3">
+            <h3 class="font-display font-bold text-lg text-whsNavy-900 flex items-center gap-2">
+              <span>📋</span> <span>Camp Summary</span>
+            </h3>
+            <span class="text-xs italic text-slate-500">*Activities may change depending on staffing and weather.</span>
+          </div>
+          <div class="space-y-3">
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 1: Campsite Arrival & Teambuilding</span>
+                <span>Poukaraka Flats</span>
+              </div>
+              <p class="text-xs text-slate-700">Direct arrival at Whakanewha campsite. Group campsite allocation, pitch tents, gear audit, and safety briefing.</p>
+            </div>
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 1: Evening Activities & Campfire</span>
+                <span>Communal Gathering</span>
+              </div>
+              <p class="text-xs text-slate-700">Outdoor meal preparation, whānau circle, campfire storytelling, and evening games.</p>
+            </div>
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 2: Cultural Heritage Walk & Cleanup</span>
+                <span>Poukaraka Pā Walk</span>
+              </div>
+              <p class="text-xs text-slate-700">Guided hike up Poukaraka Pā headland, camp clean-up, and parent pickup.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-4">
+            <h3 class="font-display font-bold text-base text-whsNavy-900 border-b border-whsBlue-50 pb-2">Topographical Track Specifications</h3>
+            <div class="space-y-3">
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Poukaraka Pā Loop</span>
+                  <span class="text-whsBlue-600">1.6 km / 30 mins</span>
+                </div>
+                <p class="text-slate-600">Gentle coastal ridge leading to terraced headland.</p>
+              </div>
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Nīkau Track Route</span>
+                  <span class="text-whsBlue-600">3.5 km / 2.0 hrs</span>
+                </div>
+                <p class="text-slate-600">Unsealed forest floor along stream bed.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-whsNavy-900 text-white p-5 rounded-2xl space-y-2 text-xs border border-whsNavy-800">
+            <h4 class="font-bold text-whsSky-300">Year 7 Specific Safety & RAMS Controls</h4>
+            <ul class="space-y-1.5 text-whsBlue-100 list-disc list-inside">
+              <li><strong class="text-white">Water Safety:</strong> Lifeguards required & 1:5 adult ratio.</li>
+              <li><strong class="text-white">Boundary:</strong> Strict buddy system; mandatory torches after dark.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 3: YEAR 8 CAMP (MOTUIHE ISLAND)    -->
+    <!-- ========================================== -->
+    <section id="tab-camp-y8" class="hidden space-y-8">
+      
+      <!-- Camp Hero Header -->
+      <div class="bg-gradient-to-r from-whsNavy-950 via-whsNavy-900 to-whsBlue-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Year 8 Camp</span>
+            <span class="bg-whsBlue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">3 Days / 2 Nights</span>
+            <span class="bg-whsNavy-800 text-whsSky-300 text-xs font-bold px-3 py-1 rounded-full uppercase border border-whsBlue-500">Sanctuary Reserve</span>
+          </div>
+          <!-- Website link button -->
+          <a href="https://www.doc.govt.nz/parks-and-recreation/places-to-go/auckland/places/motuihe-island-recreation-reserve/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-white text-whsNavy-950 hover:bg-whsBlue-50 font-bold text-xs px-3 py-1.5 rounded-lg transition shadow">
+            <span>DOC Motuihe Reserve Info</span>
+            <span>↗</span>
+          </a>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-white">Motuihe Island Camp</h2>
+        <p class="text-whsBlue-100 text-sm max-w-3xl leading-relaxed">
+          An island sanctuary camp focusing on ecosystem restoration, Mau Rākau stances, fishing, beach art, group teambuilding, and predator-free island exploration.
+        </p>
+      </div>
+
+      <!-- TRIP GOALS BOX: YEAR 8 KAITIAKITANGA -->
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsNavy-800 shadow-sm space-y-3">
+        <div class="flex items-center gap-2 border-b border-whsBlue-50 pb-2">
+          <span class="text-xl">🌿</span>
+          <h3 class="font-display font-extrabold text-lg text-whsNavy-900">Trip Goals — Kaitiakitanga</h3>
+        </div>
+        <p class="font-cultural italic font-bold text-whsNavy-900 text-sm">
+          Kaitiakitanga: Gain a sense of belonging in the Hauraki Gulf by exploring one of our nearest motu
+        </p>
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-slate-700 pt-1">
+          <li class="flex items-center gap-2 bg-whsBlue-50 p-2.5 rounded-lg border border-whsBlue-100">
+            <span class="w-2 h-2 rounded-full bg-whsNavy-800"></span>
+            <span>Group challenges, pā site visit</span>
+          </li>
+          <li class="flex items-center gap-2 bg-whsBlue-50 p-2.5 rounded-lg border border-whsBlue-100">
+            <span class="w-2 h-2 rounded-full bg-whsNavy-800"></span>
+            <span>Mau Rākau, Fishing & Beach Art</span>
+          </li>
+          <li class="flex items-center gap-2 bg-whsBlue-50 p-2.5 rounded-lg border border-whsBlue-100">
+            <span class="w-2 h-2 rounded-full bg-whsNavy-800"></span>
+            <span>Volunteering with DOC</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Stats Strip -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Location</span>
+          <span class="text-sm font-extrabold text-whsNavy-900">Motuihe Island</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Key Focus</span>
+          <span class="text-sm font-extrabold text-whsBlue-600">Mau Rākau, Fishing & Teambuilding</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">WISE Values</span>
+          <span class="text-sm font-extrabold text-whsNavy-800">Kaitiakitanga & Independence</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Physical Demand</span>
+          <span class="text-sm font-extrabold text-slate-700">Level 5 / 10 (Moderate)</span>
+        </div>
+      </div>
+
+      <!-- LUGGAGE LIMITATION NOTICE -->
+      <div class="bg-whsBlue-50 border border-whsBlue-300 p-3 rounded-xl text-xs font-semibold text-whsNavy-900 flex items-center gap-2">
+        <span>🎒</span>
+        <span>Luggage Constraint: Please note that students are restricted to only one backpack and one larger bag for luggage.</span>
+      </div>
+
+      <!-- PHOTO GALLERY GRID -->
+      <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-whsBlue-50 pb-2">
+          <h3 class="font-display font-bold text-lg text-whsNavy-900 flex items-center gap-2">
+            <span>📷</span> <span>Year 8 Camp Highlights</span>
+          </h3>
+          <span class="text-xs text-slate-500 font-medium">Motuihe Island Experience</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          <!-- Photo 1: Group Photo -->
+          <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
+            <img src="20260306_104832.jpg" alt="Year 8 Group Photo on Motuihe Island" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">
+              Year 8 Group Photo at Motuihe Island[cite: 3]
+            </div>
+          </div>
+
+          <!-- Photo 2: Fishing -->
+          <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
+            <img src="20260305_121803.jpg" alt="Student fishing on the wharf" class="w-full h-56 object-cover -rotate-90 scale-125 group-hover:scale-135 transition duration-300">
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">
+              Catching Snapper off Motuihe Wharf
+            </div>
+          </div>
+
+          <!-- Photo 3: Ferry -->
+          <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
+            <img src="20260305_085629.jpg" alt="Reo Moana Ferry Transit" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">
+              Ferry Transit aboard 'Reo Moana'[cite: 4]
+            </div>
+          </div>
+
+          <!-- Photo 4: Trapping / DOC Work -->
+          <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
+            <img src="20260305_192746.jpg" alt="Students checking predator traps" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">
+              Predator-Free Sanctuary Trap Audits[cite: 2]
+            </div>
+          </div>
+
+          <!-- Photo 5: Wildlife / Tuatara -->
+          <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
+            <img src="20260305_203402.jpg" alt="Native Wildlife Tuatara Observation" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">
+              Native Wildlife & Tuatara Spotting
+            </div>
+          </div>
+
+          <!-- Photo 6: Team Games -->
+          <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
+            <img src="20260305_140035.jpg" alt="Outdoor Team Games" class="w-full h-56 object-cover -rotate-90 scale-125 group-hover:scale-135 transition duration-300">
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">
+              Coastal Teambuilding & Beach Games
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SCHOOLAPPS CONSENT FORM CARD & EQUIPMENT LIST GRID -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- SchoolApps Consent Box -->
+        <div class="bg-whsNavy-900 text-white p-6 rounded-2xl border border-whsNavy-800 shadow-md flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="bg-whsBlue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Mandatory Permission</span>
+              <span class="text-xl">📱</span>
+            </div>
+            <h4 class="font-display font-bold text-lg text-whsSky-300">Year 8 SchoolApps Consent Form</h4>
+            <p class="text-xs text-whsBlue-100 leading-relaxed">
+              Parental permission, island ferry boarding consent, and biosecurity commitments for Motuihe Island must be confirmed on SchoolApps NZ.
+            </p>
+          </div>
+          <a href="https://schoolappsnz.co.nz/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition shadow text-center w-full">
+            <span>Complete Consent Form on SchoolApps</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <!-- Year 8 Equipment List -->
+        <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-3">
+          <h4 class="font-display font-bold text-base text-whsNavy-900 border-b border-whsBlue-50 pb-2 flex items-center justify-between">
+            <span>🎒 Equipment Checklist</span>
+            <span class="text-xs font-normal text-slate-500">Year 8 Motuihe Checklist</span>
+          </h4>
+          <div class="max-h-72 overflow-y-auto pr-1 custom-scrollbar space-y-2 text-xs text-slate-700">
+            <div class="font-bold text-whsNavy-900 bg-whsBlue-100 p-1.5 rounded">Camp Infrastructure & Group Gear</div>
+            <p class="text-[11px] text-slate-600 pl-2">Gazebos (x2), Tents, Camping chairs, Cricket set, Football, Rugby ball, Vortex, Frisbee, Webber BBQ & Gas bottles, Gas cookers, Cooking utensils, First aid kits.</p>
+            
+            <div class="font-bold text-whsNavy-900 bg-whsBlue-100 p-1.5 rounded mt-2">Activity-Specific Equipment</div>
+            <ul class="space-y-1.5 text-[11px] pl-2">
+              <li><strong class="text-whsBlue-600">Team Building:</strong> Rope, buckets, barrels, sponges, blindfolds, tarps, and maze items.</li>
+              <li><strong class="text-whsBlue-600">Mau Rākau Stances & Pā Horo:</strong> Rākau (training sticks/korari), karakia, waiata, history sheets of Motuihe pā.</li>
+              <li><strong class="text-whsBlue-600">Fishing:</strong> Fishing rods, bait, and tackle.</li>
+              <li><strong class="text-whsBlue-600">Beach Art:</strong> Local materials (leaves, shells, rocks) and confirmable art tools.</li>
+            </ul>
+
+            <div class="font-bold text-whsNavy-900 bg-whsBlue-100 p-1.5 rounded mt-2">Student Clothing & Personal Items</div>
+            <p class="text-[11px] text-slate-600 pl-2">Waterproof jacket, thermals, walking shoes, sleeping bag, personal toiletries, sun hat & sunblock, torch & drink bottle, plate/bowl/cutlery set. <em>Note: Limit to 1 backpack + 1 main luggage bag.</em></p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Camp Summary Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-whsBlue-50 pb-3">
+            <h3 class="font-display font-bold text-lg text-whsNavy-900 flex items-center gap-2">
+              <span>📋</span> <span>Camp Summary</span>
+            </h3>
+            <span class="text-xs italic text-slate-500">*Activities may change depending on staffing and weather.</span>
+          </div>
+
+          <div class="space-y-3">
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 1: Ferry Transit & Camp Setup</span>
+                <span>Matiatia to Motuihe</span>
+              </div>
+              <p class="text-xs text-slate-700">DOC quarantine inspection at Matiatia Wharf. Ferry to Motuihe Island. Establish campsite, pitch gazebos and tents, set up cooking area and water systems.</p>
+            </div>
+
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 1: Mau Rākau & Cultural Heritage</span>
+                <span>Pā Horo & History</span>
+              </div>
+              <p class="text-xs text-slate-700">Mau Rākau training sessions covering stances, karakia, waiata, and the history of Motuihe Pā. Evening team sports (cricket, vortex, touch rugby).</p>
+            </div>
+
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 2: Teambuilding, Fishing & Beach Art</span>
+                <span>Wharf & Ocean Beach</span>
+              </div>
+              <p class="text-xs text-slate-700">Teambuilding rotation (ropes, barrels, blindfold maze). Coastal fishing off wharf/rocky points, followed by creative beach art using natural island materials.</p>
+            </div>
+
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 2: DOC Ecosystem Conservation</span>
+                <span>Native Nursery & Planting</span>
+              </div>
+              <p class="text-xs text-slate-700">Voluntary conservation service project with Motuihe Trust: potting native seedlings, nursery tasks, and predator-free biosecurity awareness.</p>
+            </div>
+
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 3: Biosecurity Clean-Down & Return</span>
+                <span>Departure to Waiheke</span>
+              </div>
+              <p class="text-xs text-slate-700">Campsite pack-down, biosecurity gear inspection, BBQ lunch, reflection circle, and ferry return to Waiheke Island.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-3">
+            <h3 class="font-display font-bold text-base text-whsNavy-900 border-b border-whsBlue-50 pb-2">Motuihe Sanctuary Tracks</h3>
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+              <div class="flex justify-between font-bold text-whsNavy-900">
+                <span>Motuihe Headland Circuit</span>
+                <span class="text-whsBlue-600">4.5 km / 2 hrs</span>
+              </div>
+              <p class="text-slate-600">Panoramic coastal cliffs overlooking Waitematā Harbour. Open pasture and steep drops requiring stay-on-path discipline.</p>
+            </div>
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+              <div class="flex justify-between font-bold text-whsNavy-900">
+                <span>Tīeke Bush Reserve Path</span>
+                <span class="text-whsBlue-600">2.0 km / 45 mins</span>
+              </div>
+              <p class="text-slate-600">Regenerating forest canopy containing tīeke (saddleback) and native fauna burrows.</p>
+            </div>
+          </div>
+
+          <!-- Biosecurity Reminder Card -->
+          <div class="bg-whsBlue-50 border border-whsBlue-200 p-5 rounded-2xl text-xs space-y-2">
+            <h4 class="font-bold text-whsNavy-900 flex items-center gap-1.5">
+              <span>🌿</span> <span>Strict DOC Sanctuary Biosecurity</span>
+            </h4>
+            <p class="text-slate-700 leading-relaxed">
+              Motuihe Island is a pest-free reserve. All backpacks must be vacuumed, velcro cleared of seeds, and all food sealed in hard plastic containers prior to departure.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECTION 4: YEAR 9 CAMP -->
+    <section id="tab-camp-y9" class="hidden space-y-8">
+      <div class="bg-gradient-to-r from-whsNavy-950 via-whsNavy-900 to-whsBlue-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Year 9 Camp</span>
+            <span class="bg-whsBlue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">4 Days / 3 Nights</span>
+            <span class="bg-whsNavy-800 text-whsSky-300 text-xs font-bold px-3 py-1 rounded-full uppercase border border-whsBlue-400">Motutapu MOEC Barracks</span>
+          </div>
+          <a href="https://www.motutapucamp.org.nz/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-white text-whsNavy-950 hover:bg-whsBlue-50 font-bold text-xs px-3 py-1.5 rounded-lg transition shadow">
+            <span>Motutapu Camp (MOEC) Website</span>
+            <span>↗</span>
+          </a>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-white">Year 9 Motutapu Outdoor Education Centre (MOEC)</h2>
+        <p class="text-whsBlue-100 text-sm max-w-3xl leading-relaxed">
+          High adventure, ropes courses, cliff abseiling, WWII underground military bunker exploration, and coastal team challenges based in historic army barracks.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsSky-400 shadow-sm space-y-3">
+        <div class="flex items-center gap-2 border-b border-whsBlue-50 pb-2">
+          <span class="text-xl">🌋</span>
+          <h3 class="font-display font-extrabold text-lg text-whsNavy-900">Trip Goals — Kotahitanga</h3>
+        </div>
+        <p class="font-cultural italic font-bold text-whsBlue-600 text-sm">
+          Kotahitanga: To work together to achieve a common goal
+        </p>
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-slate-700 pt-1">
+          <li class="flex items-center gap-2 bg-whsBlue-50 p-2.5 rounded-lg border border-whsBlue-100">
+            <span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>
+            <span>Physical, Mental, Emotional challenges</span>
+          </li>
+          <li class="flex items-center gap-2 bg-whsBlue-50 p-2.5 rounded-lg border border-whsBlue-100">
+            <span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>
+            <span>Tāmaki Makaurau's volcanic past</span>
+          </li>
+          <li class="flex items-center gap-2 bg-whsBlue-50 p-2.5 rounded-lg border border-whsBlue-100">
+            <span class="w-2 h-2 rounded-full bg-whsBlue-600"></span>
+            <span>Challenging teambuilding activities</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Location</span>
+          <span class="text-sm font-extrabold text-whsNavy-900">Administration Bay, Motutapu</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Key Focus</span>
+          <span class="text-sm font-extrabold text-whsBlue-600">High Ropes & Cliff Abseil</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">WISE Values</span>
+          <span class="text-sm font-extrabold text-whsNavy-800">Excellence & Teamwork</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Physical Demand</span>
+          <span class="text-sm font-extrabold text-slate-700">Level 7 / 10 (High Challenge)</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-whsNavy-900 text-white p-6 rounded-2xl border border-whsNavy-800 shadow-md flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="bg-whsBlue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Mandatory Permission</span>
+              <span class="text-xl">📱</span>
+            </div>
+            <h4 class="font-display font-bold text-lg text-whsSky-300">Year 9 SchoolApps Consent Form</h4>
+            <p class="text-xs text-whsBlue-100 leading-relaxed">
+              High-ropes risk waivers, water activity authorization, and medical consent forms for Motutapu MOEC must be completed on SchoolApps NZ.
+            </p>
+          </div>
+          <a href="https://schoolappsnz.co.nz/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition shadow text-center w-full">
+            <span>Complete Consent Form on SchoolApps</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-3">
+          <h4 class="font-display font-bold text-base text-whsNavy-900 border-b border-whsBlue-50 pb-2 flex items-center justify-between">
+            <span>🎒 Student Equipment List</span>
+            <span class="text-xs font-normal text-slate-500">Year 9 Checklist</span>
+          </h4>
+          <div class="max-h-72 overflow-y-auto pr-1 custom-scrollbar space-y-1.5 text-xs text-slate-700">
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Tops</span><span class="font-semibold text-whsBlue-600">x3</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Pants / leggings</span><span class="font-semibold text-whsBlue-600">x2</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Jumpers / jackets</span><span class="font-semibold text-whsBlue-600">x2</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Thermals</span><span class="font-semibold text-whsBlue-600">x2</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Rain jacket / waterproof jacket</span><span class="font-semibold text-whsBlue-600">x1</span></div>
+            <div class="flex justify-between p-2 bg-whsBlue-50 rounded"><span>Tramping footwear & sleeping bag</span><span class="font-semibold text-whsBlue-600">Required</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-whsBlue-50 pb-3">
+            <h3 class="font-display font-bold text-lg text-whsNavy-900 flex items-center gap-2">
+              <span>📋</span> <span>Camp Summary</span>
+            </h3>
+            <span class="text-xs italic text-slate-500">*Activities may change depending on staffing and weather.</span>
+          </div>
+          <div class="space-y-3">
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 1: Arrival & Team Building</span>
+                <span>Admin Bay Barracks</span>
+              </div>
+              <p class="text-xs text-slate-700">Ferry to Administration Bay, barracks bed allocation, harness fittings, and safety briefings.</p>
+            </div>
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 space-y-1">
+              <div class="flex justify-between font-bold text-xs text-whsNavy-900">
+                <span>DAY 2: Vertical Ropes & Abseiling</span>
+                <span>Quarry Ropes Site</span>
+              </div>
+              <p class="text-xs text-slate-700">High ropes course, Jacob's ladder, and 18-metre natural quarry cliff abseil under certified supervision.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-3">
+            <h3 class="font-display font-bold text-base text-whsNavy-900 border-b border-whsBlue-50 pb-2">Topography & History Tracks</h3>
+            <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+              <div class="flex justify-between font-bold text-whsNavy-900">
+                <span>WWII Battery Heritage Path</span>
+                <span class="text-whsBlue-600">3.0 km / 1 hr</span>
+              </div>
+              <p class="text-slate-600">Path to concrete observation posts and command bunkers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: YEAR 10 CAMP -->
+    <section id="tab-camp-y10" class="hidden space-y-8">
+      <div class="bg-gradient-to-r from-whsNavy-950 via-whsNavy-900 to-whsBlue-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Year 10 Expedition</span>
+            <span class="bg-whsBlue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">5 Days / 4 Nights</span>
+            <span class="bg-whsNavy-800 text-whsSky-300 text-xs font-bold px-3 py-1 rounded-full uppercase border border-whsBlue-400">Aotea / Great Barrier Island</span>
+          </div>
+          <a href="https://www.doc.govt.nz/parks-and-recreation/places-to-go/auckland/places/great-barrier-island-aotea/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-white text-whsNavy-950 hover:bg-whsBlue-50 font-bold text-xs px-3 py-1.5 rounded-lg transition shadow">
+            <span>DOC Great Barrier Island Info</span>
+            <span>↗</span>
+          </a>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-white">Year 10 Aotea Great Barrier Island Expedition</h2>
+        <p class="text-whsBlue-100 text-sm max-w-3xl leading-relaxed">
+          The flagship junior expedition traversing Mt Hobson summit (Hirakimata 621m), Windy Canyon ravines, and Kaitoke Hot Springs.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsNavy-950 shadow-sm space-y-3">
+        <div class="flex items-center gap-2 border-b border-whsBlue-50 pb-2">
+          <span class="text-xl">💪</span>
+          <h3 class="font-display font-extrabold text-lg text-whsNavy-900">Trip Goals — Kaha</h3>
+        </div>
+        <p class="font-cultural italic font-bold text-whsNavy-900 text-sm">
+          Kaha: To foster personal growth, independence, and resilience through challenging outdoor experiences.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Location</span>
+          <span class="text-sm font-extrabold text-whsNavy-900">Aotea / Great Barrier Island</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Key Focus</span>
+          <span class="text-sm font-extrabold text-whsBlue-600">621m Summit & Backcountry</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">WISE Values</span>
+          <span class="text-sm font-extrabold text-whsNavy-800">Independence & Resilience</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-whsBlue-100 shadow-sm">
+          <span class="block text-[10px] uppercase font-bold text-slate-400">Physical Demand</span>
+          <span class="text-sm font-extrabold text-whsNavy-950">Level 9.5 / 10 (Expedition)</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-whsNavy-900 text-white p-6 rounded-2xl border border-whsNavy-800 shadow-md flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="bg-whsBlue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Mandatory Permission</span>
+              <span class="text-xl">📱</span>
+            </div>
+            <h4 class="font-display font-bold text-lg text-whsSky-300">Year 10 SchoolApps Consent Form</h4>
+            <p class="text-xs text-whsBlue-100 leading-relaxed">
+              Expedition medical clearances and SeaLink ferry approvals must be submitted on SchoolApps NZ.
+            </p>
+          </div>
+          <a href="https://schoolappsnz.co.nz/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition shadow text-center w-full">
+            <span>Complete Consent Form on SchoolApps</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-3">
+          <h4 class="font-display font-bold text-base text-whsNavy-900 border-b border-whsBlue-50 pb-2 flex items-center justify-between">
+            <span>🎒 Equipment Checklist</span>
+            <span class="text-xs font-normal text-slate-500">Year 10 Aotea Checklist</span>
+          </h4>
+          <ul class="space-y-2 text-xs text-slate-700">
+            <li class="flex items-center justify-between p-2 bg-whsBlue-50 rounded-lg">
+              <span>3-layer waterproof shell jacket (20,000mm)</span>
+              <span class="font-semibold text-whsNavy-900">Compulsory</span>
+            </li>
+            <li class="flex items-center justify-between p-2 bg-whsBlue-50 rounded-lg">
+              <span>Vibram sole high-ankle tramping boots</span>
+              <span class="font-semibold text-whsNavy-900">Mandatory</span>
+            </li>
+            <li class="flex items-center justify-between p-2 bg-whsBlue-50 rounded-lg">
+              <span>Down/synthetic (-5°C) sleeping bag</span>
+              <span class="font-semibold text-whsNavy-900">Required</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE TOOLS SECTION -->
+    <section class="mt-12 space-y-8 border-t border-whsBlue-100 pt-10">
+      <div class="border-b border-whsBlue-100 pb-2">
+        <h3 class="text-2xl font-display font-bold text-whsNavy-900">Interactive Student Equipment & Biosecurity Tools</h3>
+        <p class="text-xs sm:text-sm text-slate-600">Calculate estimated pack weight dynamically or generate your required Department of Conservation (DOC) pest-free clearance token.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Interactive Pack Weight Estimator -->
+        <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-whsBlue-50 pb-3">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wider text-whsBlue-600">Pack Weight Estimator</span>
+              <h4 class="font-bold text-whsNavy-900 text-sm">Interactive Gear Mass Audit</h4>
+            </div>
+            <select id="packing-camp-select" onchange="renderPackingList()" class="text-xs font-bold border border-whsBlue-200 rounded-md p-2 bg-whsBlue-50 text-whsNavy-900">
+              <option value="y7">Year 7: Whakanewha Camp</option>
+              <option value="y8">Year 8: Motuihe Island</option>
+              <option value="y9">Year 9: Motutapu MOEC</option>
+              <option value="y10" selected>Year 10: Aotea GBI Expedition</option>
+            </select>
+          </div>
+
+          <div id="packing-items-container" class="space-y-2 max-h-[350px] overflow-y-auto pr-1 custom-scrollbar"></div>
+
+          <div class="grid grid-cols-2 gap-3 text-center pt-2">
+            <div class="bg-whsBlue-50 p-3 rounded-xl border border-whsBlue-100">
+              <span class="block text-[10px] uppercase font-bold text-slate-500">Total Weight</span>
+              <span id="stat-total-weight" class="text-xl font-extrabold text-whsNavy-900">0.0 kg</span>
+            </div>
+            <div class="bg-whsBlue-50 p-3 rounded-xl border border-whsBlue-100">
+              <span class="block text-[10px] uppercase font-bold text-slate-500">Items Packed</span>
+              <span id="stat-item-count" class="text-xl font-extrabold text-whsBlue-600">0 / 0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doughnut Chart & Biosecurity Clearance Token -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-3">
+            <h4 class="font-bold text-sm text-whsNavy-900 border-b border-whsBlue-50 pb-2">Category Weight Distribution</h4>
+            <div class="chart-container" style="height: 200px; max-height: 220px;">
+              <canvas id="weightChart"></canvas>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border-2 border-whsBlue-600 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-whsBlue-50 pb-2">
+              <h4 class="font-bold text-sm text-whsNavy-900">DOC Biosecurity Digital Pass</h4>
+              <span class="text-lg">🌿</span>
+            </div>
+            <form onsubmit="generateBiosecurityPass(event)" class="space-y-3 text-xs">
+              <label class="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" required class="mt-0.5 rounded text-whsBlue-600">
+                <span>Boots scrubbed clean of soil & seeds</span>
+              </label>
+              <label class="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" required class="mt-0.5 rounded text-whsBlue-600">
+                <span>Food sealed in plastic container</span>
+              </label>
+              <div class="flex gap-2 pt-1">
+                <input type="text" id="bio-student-name" placeholder="Student Name" required class="w-full p-2 border border-whsBlue-200 rounded text-xs bg-whsBlue-50">
+                <button type="submit" class="bg-whsNavy-900 hover:bg-whsNavy-800 text-white font-bold px-3 py-2 rounded text-xs transition">
+                  Issue Pass
+                </button>
+              </div>
+            </form>
+
+            <div id="biosecurity-token-output" class="hidden p-3 bg-whsBlue-50 border border-whsBlue-400 rounded-xl text-center text-xs space-y-1">
+              <p class="font-bold text-whsNavy-900">✅ DOC BIOSECURITY PASSED</p>
+              <p class="font-mono text-xs text-whsBlue-600" id="pass-code-display">PASS-WHS-2026-9042</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="bg-whsNavy-950 text-whsBlue-100 text-xs py-8 border-t border-whsNavy-900 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+          <p class="font-bold text-white text-sm">Waiheke High School Outdoor Education Portal</p>
+          <p class="text-whsBlue-100">11 Donald Bruce Road, Surfdale, Waiheke Island | Ph: (09) 372 8938</p>
+        </div>
+        <div class="flex gap-4 text-xs">
+          <button onclick="switchTab('home')" class="hover:text-white transition">About WHS</button>
+          <button onclick="switchTab('camp-y7')" class="hover:text-white transition">Year 7</button>
+          <button onclick="switchTab('camp-y8')" class="hover:text-white transition">Year 8</button>
+          <button onclick="switchTab('camp-y9')" class="hover:text-white transition">Year 9</button>
+          <button onclick="switchTab('camp-y10')" class="hover:text-white transition">Year 10</button>
+        </div>
+      </div>
+      <div class="border-t border-whsNavy-900 pt-4 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-400">
+        <p>© 2026 Waiheke High School. NZ's Only Island High School (Est. 1986).</p>
+        <p class="font-cultural italic">"Whāia te pae tawhiti — Pursue your goals to the furthest horizon"</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script>
+    const packingMaster = {
+      y7: [
+        { id: "y7-1", name: "Tops x3 (including warm ones)", cat: "Clothing", weight: 0.6 },
+        { id: "y7-2", name: "Pants / leggings x2", cat: "Clothing", weight: 0.5 },
+        { id: "y7-3", name: "Jumpers / jackets x1", cat: "Clothing", weight: 0.4 },
+        { id: "y7-4", name: "Rain jacket / waterproof jacket x1", cat: "Clothing", weight: 0.4 },
+        { id: "y7-5", name: "Socks x2", cat: "Clothing", weight: 0.15 },
+        { id: "y7-6", name: "Pajamas x1", cat: "Clothing", weight: 0.25 },
+        { id: "y7-7", name: "Sun hat x1 & Towel x1", cat: "Clothing", weight: 0.35 },
+        { id: "y7-8", name: "Swimwear x1 & Shorts", cat: "Clothing", weight: 0.3 },
+        { id: "y7-9", name: "Shoes x2 (appropriate for walking)", cat: "Footwear", weight: 1.0 },
+        { id: "y7-10", name: "Underwear (enough for two days)", cat: "Clothing", weight: 0.2 },
+        { id: "y7-11", name: "Personal toiletries", cat: "Hardware", weight: 0.5 },
+        { id: "y7-12", name: "Torch & Drink bottle", cat: "Hardware", weight: 1.2 },
+        { id: "y7-13", name: "Sleeping bag, pillow, sleeping mat", cat: "Sleeping", weight: 2.1 },
+        { id: "y7-14", name: "Own snacks & Cutlery set", cat: "Hardware", weight: 0.8 }
+      ],
+      y8: [
+        { id: "y8-1", name: "1 Backpack & 1 Larger Bag (Max Limit)", cat: "Hardware", weight: 0.8 },
+        { id: "y8-2", name: "Waterproof Jacket & Warm Thermals", cat: "Clothing", weight: 0.8 },
+        { id: "y8-3", name: "Walking Shoes & Socks", cat: "Footwear", weight: 1.1 },
+        { id: "y8-4", name: "Sleeping Bag & Foam Mat", cat: "Sleeping", weight: 1.8 },
+        { id: "y8-5", name: "Personal Toiletries & Sun Protection", cat: "Hardware", weight: 0.5 },
+        { id: "y8-6", name: "Torch & Reusable Drink Bottle", cat: "Hardware", weight: 1.2 },
+        { id: "y8-7", name: "Cutlery & Plate Set", cat: "Hardware", weight: 0.4 }
+      ],
+      y9: [
+        { id: "y9-1", name: "Tops x3", cat: "Clothing", weight: 0.6 },
+        { id: "y9-2", name: "Pants / leggings x2", cat: "Clothing", weight: 0.5 },
+        { id: "y9-3", name: "Jumpers / jackets x2", cat: "Clothing", weight: 0.8 },
+        { id: "y9-4", name: "Thermals x2", cat: "Clothing", weight: 0.4 },
+        { id: "y9-5", name: "Rain jacket / waterproof jacket x1", cat: "Clothing", weight: 0.5 },
+        { id: "y9-6", name: "Socks x3 & Pajamas x1", cat: "Clothing", weight: 0.35 },
+        { id: "y9-7", name: "Hats & Sunglasses", cat: "Clothing", weight: 0.2 },
+        { id: "y9-8", name: "Tramping Footwear & Sleeping Bag", cat: "Footwear", weight: 2.2 },
+        { id: "y9-9", name: "Toiletries & Hydration Bottle", cat: "Hardware", weight: 1.4 }
+      ],
+      y10: [
+        { id: "y10-1", name: "3-Layer Technical Shell Jacket (20,000mm)", cat: "Clothing", weight: 0.65 },
+        { id: "y10-2", name: "3x Merino Base Layers & Fleeces", cat: "Clothing", weight: 1.4 },
+        { id: "y10-3", name: "Vibram Sole High-Ankle Tramping Boots", cat: "Footwear", weight: 1.6 },
+        { id: "y10-4", name: "Down/Synthetic (-5°C) Sleeping Bag", cat: "Sleeping", weight: 1.5 },
+        { id: "y10-5", name: "Insulated Sleeping Pad (R-Value > 3.0)", cat: "Sleeping", weight: 0.6 },
+        { id: "y10-6", name: "Heavy-Duty Pack Liner Dry Bag", cat: "Hardware", weight: 0.3 },
+        { id: "y10-7", name: "200+ Lumen LED Headlamp", cat: "Hardware", weight: 0.2 },
+        { id: "y10-8", name: "3.0L Hydration System", cat: "Hardware", weight: 3.1 },
+        { id: "y10-9", name: "Backcountry Alloy Mess Kit & Rations", cat: "Hardware", weight: 0.8 }
+      ]
+    };
+
+    let activeTab = 'home';
+    let progressionChartInstance = null;
+    let weightChartInstance = null;
+    let packedItemsState = {};
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initProgressionChart('radar');
+      renderPackingList();
+    });
+
+    function switchTab(tabId) {
+      activeTab = tabId;
+      document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+      
+      const targetSec = document.getElementById(`tab-${tabId}`);
+      if (targetSec) targetSec.classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-whsNavy-800', 'text-white', 'border-b-2', 'border-whsSky-400');
+        btn.classList.add('text-whsBlue-100');
+      });
+      const activeBtn = document.getElementById(`nav-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-whsNavy-800', 'text-white', 'border-b-2', 'border-whsSky-400');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (tabId === 'home' && progressionChartInstance) {
+        setTimeout(() => progressionChartInstance.resize(), 50);
+      }
+      if (weightChartInstance) {
+        setTimeout(() => weightChartInstance.resize(), 50);
+      }
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const btn = document.getElementById('mobile-menu-btn');
+      const isHidden = menu.classList.toggle('hidden');
+      if (btn) btn.setAttribute('aria-expanded', !isHidden);
+    }
+
+    function toggleNoticeState() {
+      const banner = document.getElementById('emergency-banner');
+      const msg = document.getElementById('banner-message');
+      if (banner.classList.contains('bg-whsNavy-900')) {
+        banner.className = "bg-whsNavy-950 text-white text-xs sm:text-sm py-2 px-4 shadow-inner transition-all duration-300 border-b border-whsBlue-600";
+        msg.innerText = "ADVISORY: SeaLink Ferry weather delay (30 min shift for Year 8 Motuihe Island departure).";
+      } else {
+        banner.className = "bg-whsNavy-900 text-white text-xs sm:text-sm py-2 px-4 shadow-inner transition-all duration-300 border-b border-whsNavy-800";
+        msg.innerText = "All camp programs operating normally across Hauraki Gulf / Tīkapa Moana.";
+      }
+    }
+
+    function initProgressionChart(type = 'radar') {
+      const ctx = document.getElementById('progressionChart').getContext('2d');
+      if (progressionChartInstance) progressionChartInstance.destroy();
+
+      const dataConfig = {
+        labels: ['Duration (Days)', 'Max Elevation Gain', 'Remote Risk Level', 'Independence Score', 'Physical Demand'],
+        datasets: [
+          {
+            label: 'Year 7: Whakanewha',
+            data: [2, 2, 2, 4, 3],
+            backgroundColor: 'rgba(0, 86, 145, 0.25)',
+            borderColor: '#005691',
+            borderWidth: 2,
+            pointBackgroundColor: '#005691'
+          },
+          {
+            label: 'Year 8: Motuihe Island',
+            data: [3, 4, 5, 6, 5],
+            backgroundColor: 'rgba(15, 43, 86, 0.25)',
+            borderColor: '#0F2B56',
+            borderWidth: 2,
+            pointBackgroundColor: '#0F2B56'
+          },
+          {
+            label: 'Year 9: Motutapu',
+            data: [4, 6, 6, 7, 7],
+            backgroundColor: 'rgba(74, 144, 226, 0.25)',
+            borderColor: '#4A90E2',
+            borderWidth: 2,
+            pointBackgroundColor: '#4A90E2'
+          },
+          {
+            label: 'Year 10: Aotea GBI',
+            data: [5, 10, 9, 10, 9.5],
+            backgroundColor: 'rgba(6, 15, 30, 0.35)',
+            borderColor: '#060F1E',
+            borderWidth: 2,
+            pointBackgroundColor: '#060F1E'
+          }
+        ]
+      };
+
+      const optionsConfig = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+        },
+        scales: type === 'radar' ? {
+          r: { min: 0, max: 10, ticks: { display: false } }
+        } : {
+          y: { beginAtZero: true, max: 10 }
+        }
+      };
+
+      progressionChartInstance = new Chart(ctx, {
+        type: type,
+        data: dataConfig,
+        options: optionsConfig
+      });
+    }
+
+    function updateProgressionChart(type) {
+      initProgressionChart(type);
+    }
+
+    function renderPackingList() {
+      const campKey = document.getElementById('packing-camp-select').value;
+      const items = packingMaster[campKey] || [];
+      const container = document.getElementById('packing-items-container');
+      
+      container.innerHTML = items.map(item => {
+        const isChecked = packedItemsState[item.id] !== undefined ? packedItemsState[item.id] : true;
+        packedItemsState[item.id] = isChecked;
+        
+        return `
+          <div class="flex items-center justify-between p-2 bg-whsBlue-50 rounded-lg border border-whsBlue-100 text-xs">
+            <label class="flex items-center gap-2 cursor-pointer flex-grow">
+              <input type="checkbox" onchange="toggleGearItem('${item.id}')" ${isChecked ? 'checked' : ''} class="rounded text-whsBlue-600 focus:ring-whsBlue-500 w-4 h-4">
+              <span class="${isChecked ? 'text-slate-800 font-medium' : 'text-slate-400 line-through'}">${item.name}</span>
+            </label>
+            <span class="font-mono text-[11px] text-whsBlue-600">${item.weight.toFixed(2)} kg</span>
+          </div>
+        `;
+      }).join('');
+
+      updateWeightAnalytics();
+    }
+
+    function toggleGearItem(itemId) {
+      packedItemsState[itemId] = !packedItemsState[itemId];
+      renderPackingList();
+    }
+
+    function updateWeightAnalytics() {
+      const campKey = document.getElementById('packing-camp-select').value;
+      const items = packingMaster[campKey] || [];
+      
+      let totalWeight = 0;
+      let packedCount = 0;
+      const catTotals = { Clothing: 0, Footwear: 0, Sleeping: 0, Hardware: 0 };
+
+      items.forEach(item => {
+        if (packedItemsState[item.id]) {
+          totalWeight += item.weight;
+          packedCount++;
+          if (catTotals[item.cat] !== undefined) catTotals[item.cat] += item.weight;
+        }
+      });
+
+      document.getElementById('stat-total-weight').innerText = `${totalWeight.toFixed(2)} kg`;
+      document.getElementById('stat-item-count').innerText = `${packedCount} / ${items.length}`;
+
+      renderWeightChart(catTotals);
+    }
+
+    function renderWeightChart(catTotals) {
+      const ctx = document.getElementById('weightChart').getContext('2d');
+      if (weightChartInstance) weightChartInstance.destroy();
+
+      weightChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(catTotals),
+          datasets: [{
+            data: Object.values(catTotals),
+            backgroundColor: ['#0A1E3F', '#005691', '#4A90E2', '#7EC8E3'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } }
+          }
+        }
+      });
+    }
+
+    function generateBiosecurityPass(e) {
+      e.preventDefault();
+      const name = document.getElementById('bio-student-name').value;
+      const randomToken = Math.floor(1000 + Math.random() * 9000);
+      
+      const passOutput = document.getElementById('biosecurity-token-output');
+      document.getElementById('pass-code-display').innerText = `PASS-DOC-2026-${randomToken} (${name})`;
+      passOutput.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
