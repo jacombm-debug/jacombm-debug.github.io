@@ -189,6 +189,183 @@
         </div>
       </div>
 
+      <!-- METSERVICE WEATHER, TIDES, SUN & MOON & ATMOSPHERIC PRESSURE DASHBOARD -->
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsBlue-600 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-whsBlue-100 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="bg-whsNavy-900 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">MetService Feed</span>
+              <h3 class="text-xl font-display font-bold text-whsNavy-900">Waiheke Island Marine & Environmental Overview</h3>
+            </div>
+            <p class="text-xs text-slate-500 pt-0.5">Real-time tides, solar/lunar cycles, live surface pressure, and atmospheric metrics via MetService & Open-Meteo API.</p>
+          </div>
+          <a href="https://www.metservice.com/towns-cities/regions/auckland/locations/waiheke-island/7-days" target="_blank" rel="noopener noreferrer" class="bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition shadow flex items-center gap-1.5 self-start sm:self-auto">
+            <span>View Full MetService 7-Day Page</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Column 1: Tides Overview Table -->
+          <div class="lg:col-span-6 bg-whsBlue-50 p-4 rounded-xl border border-whsBlue-100 space-y-3">
+            <div class="flex items-center justify-between border-b border-whsBlue-200 pb-2">
+              <h4 class="font-bold text-sm text-whsNavy-900 flex items-center gap-1.5">
+                <span>🌊</span> <span>Waiheke Island Tides Overview</span>
+              </h4>
+              <span class="text-[10px] font-bold text-whsBlue-600 bg-white px-2 py-0.5 rounded border border-whsBlue-200">Today's Cycle</span>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-whsNavy-900 text-white text-[11px] font-bold">
+                    <th class="p-2 rounded-tl">LOCATION</th>
+                    <th class="p-2">LOW</th>
+                    <th class="p-2">HIGH</th>
+                    <th class="p-2">LOW</th>
+                    <th class="p-2 rounded-tr">HIGH</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-whsBlue-200 text-slate-700 bg-white font-mono">
+                  <tr>
+                    <td class="p-2 font-bold text-whsNavy-900 font-sans">Matiatia Bay</td>
+                    <td class="p-2">06:03<br><span class="text-[10px] text-slate-500">0.8m</span></td>
+                    <td class="p-2 font-semibold text-whsBlue-600">12:24<br><span class="text-[10px] text-whsBlue-600 font-bold">2.7m</span></td>
+                    <td class="p-2">18:31<br><span class="text-[10px] text-slate-500">1.1m</span></td>
+                    <td class="p-2 font-semibold text-whsBlue-600">23:51<br><span class="text-[10px] text-whsBlue-600 font-bold">2.7m</span></td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 font-bold text-whsNavy-900 font-sans">Man O' War Bay</td>
+                    <td class="p-2">06:01<br><span class="text-[10px] text-slate-500">0.8m</span></td>
+                    <td class="p-2 font-semibold text-whsBlue-600">12:19<br><span class="text-[10px] text-whsBlue-600 font-bold">2.7m</span></td>
+                    <td class="p-2">18:29<br><span class="text-[10px] text-slate-500">1.1m</span></td>
+                    <td class="p-2 font-semibold text-whsBlue-600">23:47<br><span class="text-[10px] text-whsBlue-600 font-bold">2.7m</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-[11px] text-slate-500 italic">* High tide heights measured in meters above chart datum.</p>
+          </div>
+
+          <!-- Column 2: Sun & Moon Hours & Moon Phases -->
+          <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <div class="bg-whsBlue-50 p-4 rounded-xl border border-whsBlue-100 space-y-3 flex flex-col justify-between">
+              <div class="border-b border-whsBlue-200 pb-2">
+                <h4 class="font-bold text-sm text-whsNavy-900 flex items-center gap-1.5">
+                  <span>☀️</span> <span>Sun & Moon Hours</span>
+                </h4>
+              </div>
+              <div class="space-y-2 text-xs">
+                <div class="flex justify-between items-center p-1.5 bg-white rounded border border-whsBlue-100">
+                  <span class="font-semibold text-slate-600">Sunrise</span>
+                  <span class="font-bold text-whsNavy-900 font-mono">6:15 am</span>
+                </div>
+                <div class="flex justify-between items-center p-1.5 bg-white rounded border border-whsBlue-100">
+                  <span class="font-semibold text-slate-600">Sunset</span>
+                  <span class="font-bold text-whsNavy-900 font-mono">6:14 pm</span>
+                </div>
+                <div class="flex justify-between items-center p-1.5 bg-white rounded border border-whsBlue-100">
+                  <span class="font-semibold text-slate-600">Moonrise</span>
+                  <span class="font-bold text-whsNavy-900 font-mono">9:51 am</span>
+                </div>
+                <div class="flex justify-between items-center p-1.5 bg-white rounded border border-whsBlue-100">
+                  <span class="font-semibold text-slate-600">Moonset</span>
+                  <span class="font-bold text-whsNavy-900 font-mono">12:34 am</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-whsBlue-50 p-4 rounded-xl border border-whsBlue-100 space-y-3 flex flex-col justify-between">
+              <div class="border-b border-whsBlue-200 pb-2">
+                <h4 class="font-bold text-sm text-whsNavy-900 flex items-center gap-1.5">
+                  <span>🌙</span> <span>Moon Phases</span>
+                </h4>
+              </div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between items-center p-1 bg-white rounded">
+                  <span class="text-slate-600">First quarter</span>
+                  <span class="font-bold text-whsBlue-600">19 Sep</span>
+                </div>
+                <div class="flex justify-between items-center p-1 bg-white rounded">
+                  <span class="text-slate-600">Full moon</span>
+                  <span class="font-bold text-whsBlue-600">27 Sep</span>
+                </div>
+                <div class="flex justify-between items-center p-1 bg-white rounded">
+                  <span class="text-slate-600">Last quarter</span>
+                  <span class="font-bold text-whsBlue-600">4 Oct</span>
+                </div>
+                <div class="flex justify-between items-center p-1 bg-white rounded">
+                  <span class="text-slate-600">New moon</span>
+                  <span class="font-bold text-whsBlue-600">11 Oct</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Row 2: Live Surface Pressure & National Current Extremes Strip -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 border-t border-whsBlue-100 pt-4">
+          
+          <!-- Live Surface Pressure Card -->
+          <div class="md:col-span-5 bg-whsNavy-900 text-white p-4 rounded-xl border border-whsNavy-800 space-y-2 shadow-md">
+            <div class="flex items-center justify-between border-b border-whsNavy-800 pb-1.5">
+              <h4 class="font-bold text-xs uppercase tracking-wider text-whsSky-300 flex items-center gap-1.5">
+                <span>⏱️</span> <span>Live Surface Pressure</span>
+              </h4>
+              <span class="text-[10px] bg-whsBlue-600 px-2 py-0.5 rounded text-white font-bold">Waiheke Telemetry</span>
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <div>
+                <span id="live-pressure-val" class="text-3xl font-extrabold font-mono text-white">1018.4</span>
+                <span class="text-xs text-whsSky-300 font-bold ml-1">hPa</span>
+              </div>
+              <div class="text-right text-[11px] text-whsBlue-100">
+                <span class="block font-semibold text-white">Sea Level Pressure</span>
+                <span id="live-pressure-state" class="block text-whsSky-300 font-bold">Stable Barometric Pressure</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- National Current Extremes Card -->
+          <div class="md:col-span-7 bg-whsBlue-50 p-4 rounded-xl border border-whsBlue-100 space-y-2">
+            <div class="border-b border-whsBlue-200 pb-1.5 flex justify-between items-center">
+              <h4 class="font-bold text-xs uppercase tracking-wider text-whsNavy-900 flex items-center gap-1.5">
+                <span>🇳🇿</span> <span>National Current Extremes</span>
+              </h4>
+              <span class="text-[10px] text-slate-500 font-medium">Recorded Snapshot</span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+              <div class="p-2 bg-white rounded border border-whsBlue-100">
+                <span class="block text-[10px] uppercase font-bold text-slate-400">HIGHEST</span>
+                <span class="font-bold text-amber-600 text-sm">16.0°</span>
+                <span class="block text-[10px] text-slate-500 truncate">Waikawau Bay</span>
+              </div>
+              <div class="p-2 bg-white rounded border border-whsBlue-100">
+                <span class="block text-[10px] uppercase font-bold text-slate-400">LOWEST</span>
+                <span class="font-bold text-whsBlue-600 text-sm">0.4°</span>
+                <span class="block text-[10px] text-slate-500 truncate">Culverden</span>
+              </div>
+              <div class="p-2 bg-white rounded border border-whsBlue-100">
+                <span class="block text-[10px] uppercase font-bold text-slate-400">WINDIEST</span>
+                <span class="font-bold text-whsNavy-900 text-sm">41 km/h</span>
+                <span class="block text-[10px] text-slate-500 truncate">Invercargill</span>
+              </div>
+              <div class="p-2 bg-white rounded border border-whsBlue-100">
+                <span class="block text-[10px] uppercase font-bold text-slate-400">WETTEST</span>
+                <span class="font-bold text-sky-600 text-sm">7.1 mm</span>
+                <span class="block text-[10px] text-slate-500 truncate">Whakatāne</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <!-- 4 THEMES GRID -->
       <div class="space-y-4">
         <div class="border-b border-whsBlue-100 pb-2">
@@ -308,9 +485,13 @@
             <span class="text-xs font-bold uppercase tracking-wider text-whsBlue-600">School History & Profile</span>
             <h3 class="text-3xl font-display font-extrabold text-whsNavy-900">About Waiheke High School</h3>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="bg-whsNavy-900 text-white text-xs font-bold px-3 py-1 rounded-full">Est. 1986</span>
-            <span class="bg-whsBlue-600 text-white text-xs font-bold px-3 py-1 rounded-full">Years 7–13</span>
+          <div class="flex items-center gap-2 font-bold text-xs">
+            <span class="bg-whsNavy-900 text-white px-3 py-1 rounded-full">Est. 1986</span>
+            <span class="bg-whsBlue-600 text-white px-3 py-1 rounded-full">Years 7–13</span>
+            <a href="https://waihekehigh.school.nz/" target="_blank" rel="noopener noreferrer" class="bg-whsSky-300 hover:bg-whsSky-400 text-whsNavy-950 px-3 py-1 rounded-full transition shadow-sm border border-whsBlue-400 flex items-center gap-1">
+              <span>Main School Website</span>
+              <span>↗</span>
+            </a>
           </div>
         </div>
 
@@ -351,31 +532,97 @@
         </div>
       </div>
 
-      <!-- History of Junior EOTC -->
+      <!-- History of Junior EOTC Section -->
       <div class="bg-white rounded-2xl p-8 border border-whsBlue-100 shadow-sm space-y-6">
-        <div class="border-b border-whsBlue-50 pb-3">
+        <div class="border-b border-whsBlue-50 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <h3 class="text-2xl font-display font-extrabold text-whsNavy-900">A long History of Junior EOTC at WHS</h3>
+          <span class="bg-whsBlue-100 text-whsBlue-600 font-bold text-xs px-3 py-1 rounded-full border border-whsBlue-200">EOTC Framework</span>
         </div>
 
         <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
           <p>
-            For over 40 years, the hugely successful Year 9 mountain trip—originally established and run by the legendary Mr Bob Upchurch—stood alongside other junior camps at Waiheke High School, but over the years the trips slowly disappeared until the only remaining camp was in Year 9 to Mt Ruapehu. This stood as a solitary, stand-alone outdoor adventure for WHS junior students for more than a decade. Upon returning from teaching overseas, Mr Mathew Jacomb brought a new vision to completely overhaul and scaffold the junior year group camps program into a progressive four-year journey that was focused on our own backyard. Tīkapa moana, the Hauraki Gulf. Students now have a journey of increasing difficulty from Year 7 right through to Year 10 with the possibility of a revised mountain trip in the senior school. This is an exciting opportunity for our students, and we are excited to build a strong sense of kotahitanga, whanaungatanga, and kaitiakitanga through education outside the classroom.
+            For over 40 years, the hugely successful Year 9 mountain trip—originally established and run by the legendary Mr Bob Upchurch—stood alongside other junior camps at Waiheke High School, but over the years the trips slowly disappeared until the only remaining camp was in Year 9 to Mt Ruapehu. This stood as a solitary, stand-alone outdoor adventure for WHS junior students for more than a decade. Upon returning from teaching overseas, Mr Mathew Jacomb brought a new vision to completely overhaul and scaffold the junior year group camps program into a progressive four-year journey that was focused on our own backyard. Tīkapa moana, the Hauraki Gulf. Students now have a journey of increasing difficulty from Year 7 right through to Year 10. This is an exciting opportunity for our students to build critical interpersonal skills including resilience, independance, and communication as well as a sense of kotahitanga, whanaungatanga, and kaitiakitanga. All through physical, mental and emotional challenges outside the classroom.
           </p>
           <p>
-            This program started in 2025, Mr Jacomb built the new program anchored directly in professional guidelines from 
-            <a href="https://eonz.org.nz/Resources/Curriculum/Revisioning-School-Camps" target="_blank" rel="noopener noreferrer" class="text-whsBlue-600 underline font-bold hover:text-whsNavy-900">Education Outdoors New Zealand (EONZ) — Revisioning School Camps</a>. This transformed the camp structure into a place-responsive, student-centred pathway.
+            This program started in 2025, Mr Jacomb built the new program anchored directly in professional guidelines from <strong>Education Outdoors New Zealand (EONZ) — Revisioning School Camps</strong>. This transformed the camp structure into a place-responsive, student-centred pathway.
           </p>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-            <blockquote class="p-4 bg-whsBlue-50 rounded-xl border-l-4 border-l-whsBlue-600 text-xs text-whsNavy-900 space-y-2">
+            <blockquote class="p-4 bg-whsBlue-50 rounded-xl border-l-4 border-l-whsBlue-600 text-xs text-whsNavy-900 space-y-2 shadow-sm">
               <p class="font-cultural italic font-bold text-sm">"Outdoor education provides opportunities for teamwork, problem-solving and resilience, while also fostering a sense of kaitiakitanga (guardianship) for Aotearoa's natural environment."</p>
               <footer class="text-[11px] font-semibold text-whsBlue-600">— Education Outdoors New Zealand (EONZ)</footer>
             </blockquote>
 
-            <blockquote class="p-4 bg-whsBlue-50 rounded-xl border-l-4 border-l-whsNavy-800 text-xs text-whsNavy-900 space-y-2">
+            <blockquote class="p-4 bg-whsBlue-50 rounded-xl border-l-4 border-l-whsNavy-800 text-xs text-whsNavy-900 space-y-2 shadow-sm">
               <p class="font-cultural italic font-bold text-sm">"This resource supports teaching and learning with the development of localised, place-responsive, student-centred school camp programmes... grounding taiohi voice, agency and leadership."</p>
               <footer class="text-[11px] font-semibold text-whsNavy-800">— EONZ Revisioning School Camps Framework</footer>
             </blockquote>
+          </div>
+        </div>
+
+        <!-- Contact details box for Mr M Jacomb -->
+        <div class="bg-whsNavy-900 text-white rounded-xl p-5 border border-whsNavy-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-md">
+          <div class="space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-whsSky-300 bg-whsNavy-800 px-2.5 py-0.5 rounded border border-whsBlue-600">EOTC Contact</span>
+            <h4 class="text-base font-extrabold text-white">Mr M Jacomb</h4>
+            <p class="text-xs text-whsBlue-100">Year Group Camps Coordinator</p>
+          </div>
+          <a href="mailto:Jacombm@waihekehigh.school.nz" class="inline-flex items-center gap-2 bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-bold text-xs px-4 py-2.5 rounded-lg transition shadow border border-whsBlue-400">
+            <span>✉ Email: Jacombm@waihekehigh.school.nz</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Senior Curriculum Links Section -->
+      <div class="bg-white rounded-2xl p-8 border border-whsBlue-100 shadow-sm space-y-6">
+        <div class="border-b border-whsBlue-50 pb-3 flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-whsBlue-600">NCEA & Senior Pathways</span>
+            <h3 class="text-2xl font-display font-extrabold text-whsNavy-900">Curriculum Links</h3>
+          </div>
+          <span class="text-2xl">🧭</span>
+        </div>
+
+        <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <p>
+            The junior Year 7–10 camp progression serves as the foundational springboard for senior NCEA physical education, sea sports, and outdoor education pathways at Waiheke High School. By learning about safety in the outdoors, biosecurity, navigation, and leadership in junior camps, students build the confidence and skill set required to excel in senior outdoor curriculum subjects.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            <!-- Year 11 Outdoor Education -->
+            <div class="bg-whsBlue-50 p-5 rounded-2xl border border-whsBlue-200 space-y-2">
+              <div class="flex items-center justify-between border-b border-whsBlue-200 pb-2">
+                <h4 class="font-display font-extrabold text-base text-whsNavy-900">Year 11 Outdoor Education Course</h4>
+                <span class="bg-whsBlue-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Level 1 NCEA</span>
+              </div>
+              <p class="text-xs text-slate-700 leading-relaxed">
+                Prepares students for outdoor leadership, risk assessment, and technical skill development, drawing directly upon the camping, tramping, and navigation competencies developed during the Year 7–10 island expeditions.
+              </p>
+            </div>
+
+            <!-- Year 12 & 13 Sea Sports Course -->
+            <div class="bg-whsNavy-900 text-white p-5 rounded-2xl border border-whsNavy-800 space-y-2 shadow-md">
+              <div class="flex items-center justify-between border-b border-whsNavy-800 pb-2">
+                <h4 class="font-display font-extrabold text-base text-whsSky-300">Year 12 & 13 Sea Sports Course</h4>
+                <span class="bg-whsBlue-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Level 2 & 3 NCEA</span>
+              </div>
+              <p class="text-xs text-whsBlue-100 leading-relaxed">
+                An intensive senior program leveraging our marine backyard where students participate weekly in a wide variety of advanced outdoor and water-based pursuits including:
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-2">
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">Rock Climbing</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">Coasteering</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">Waka Ama</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">Sea Kayaking</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">SUP</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">Fishing</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">SCUBA Diving</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">Snorkeling</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">Sailing</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">Tramping</span>
+                <span class="bg-whsNavy-800 text-whsSky-300 border border-whsBlue-600 text-[11px] font-semibold px-2 py-0.5 rounded">First Aid Certification</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -400,9 +647,9 @@
                 <span class="block text-xl font-extrabold text-whsBlue-600">4 Motu</span>
                 <span class="text-[10px] font-bold uppercase text-slate-500">Islands Explored</span>
               </div>
-              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100">
-                <span class="block text-xl font-extrabold text-whsNavy-800">$0</span>
-                <span class="text-[10px] font-bold uppercase text-slate-500">Student Excluded</span>
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 flex flex-col justify-center items-center">
+                <span class="block text-xs font-extrabold text-whsNavy-800 uppercase leading-tight">Financial Support Available</span>
+                <span class="text-[10px] font-bold uppercase text-slate-500 pt-1">Equity Assistance</span>
               </div>
             </div>
           </div>
@@ -445,6 +692,91 @@
         <p class="text-whsBlue-100 text-sm max-w-3xl leading-relaxed">
           Introduces students to tent camping, teambuilding, and outdoor safety at Whakanewha Regional Park.
         </p>
+      </div>
+
+      <!-- ABOUT WHAKANEWHA REGIONAL PARK SECTION -->
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsBlue-600 shadow-sm space-y-4">
+        <div class="border-b border-whsBlue-50 pb-2">
+          <h3 class="font-display font-extrabold text-xl text-whsNavy-900">About Whakanewha Regional Park</h3>
+        </div>
+        <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <p>Found on the south coast of Waiheke Island, near Rocky Bay, Whakanewha Regional Park is known for its mature forest, cascading stream and sweeping crescent-shaped beach cut in two by a forested headland. It is home to the only campground on the island making it popular with both local and international tourists.</p>
+          <p>At high tide the water is shallow, warm and ideal for children. Picnic spots on the foreshore are plentiful.</p>
+          <p>Whakanewha means “to shade the eyes from the setting sun”. The site became a regional park in 1994.</p>
+          
+          <div class="pt-2 border-t border-whsBlue-50 space-y-2">
+            <h4 class="font-display font-bold text-base text-whsNavy-900">History</h4>
+            <p>Whakanewha is steeped in Māori and European history. The numerous shell middens, pits, terraces and pā site on the headland remain from many generations of Māori occupation. Inhabitants of the pā gathered pipi, scallops and cockles from the Whakanewha foreshore.</p>
+            <p>Europeans began to use the area for trading, boat building and forestry in the 1830s. In the 1850s, Māori cultivated the flat land, supplying Auckland with fruit and vegetables.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRAIL MAP & TRACK SPECS SECTION -->
+      <div class="bg-white rounded-2xl p-6 border border-whsBlue-100 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-whsBlue-50 pb-3">
+          <div>
+            <h3 class="font-display font-bold text-lg text-whsNavy-900 flex items-center gap-2">
+              <span>🗺️</span> <span>Whakanewha Regional Park Trail Map & Official Track Specs</span>
+            </h3>
+            <p class="text-xs text-slate-500">Official park map showing Poukaraka Flats campground, bush tracks, and historical Pā site routes.</p>
+          </div>
+          <a href="https://www.aucklandcouncil.govt.nz/content/dam/ac/docs/plans/parks/22-map-whakanewha-regional-park.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition shadow">
+            <span>Download PDF Map</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-7 bg-slate-100 border border-whsBlue-100 rounded-xl overflow-hidden shadow-sm p-2">
+            <img src="map-whakanewha-regional-parkv2-495x400.png.webp" alt="Whakanewha Regional Park Official Trail Map" class="w-full h-auto object-contain max-h-96 mx-auto rounded-lg">
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <h4 class="font-bold text-sm text-whsNavy-900 border-b border-whsBlue-50 pb-2">Official Feature Walks (PDF Specs)</h4>
+            <div class="space-y-2.5">
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Pā Loop Track</span>
+                  <span class="text-whsBlue-600">1.5 km / 30–45 mins</span>
+                </div>
+                <p class="text-slate-600">Headland walk starting at Sculpture car park exploring ancient Māori terraced kūmara pits and coastal vistas.</p>
+              </div>
+
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Rua Loop Track</span>
+                  <span class="text-whsBlue-600">750 m / 35 mins</span>
+                </div>
+                <p class="text-slate-600">Named after kumara storage pits visible along the route through mature native bush returning along the foreshore.</p>
+              </div>
+
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Cascade Walk</span>
+                  <span class="text-whsBlue-600">2.5 km / 1.5 hrs</span>
+                </div>
+                <p class="text-slate-600">Starts at Carson's Road car park taking in Tarata Track, Central Track, and Cascades Stream waterfalls.</p>
+              </div>
+
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Park Walk Loop</span>
+                  <span class="text-whsBlue-600">5.0 km / 2.5 hrs</span>
+                </div>
+                <p class="text-slate-600">Full loop walk connecting Nīkau, Tarata, and Kōwhai tracks with views across Hauraki Gulf to mainland Auckland.</p>
+              </div>
+            </div>
+
+            <div class="bg-whsNavy-900 text-white p-4 rounded-xl space-y-1 text-xs border border-whsNavy-800">
+              <h5 class="font-bold text-whsSky-300">Auckland Council Regional Safety Codes</h5>
+              <p class="text-[11px] text-whsBlue-100">
+                <strong>Water Safety Code:</strong> Be prepared, watch out for yourself and others, be aware of dangers, know your limits.<br>
+                <strong>Land Safety Code:</strong> Choose right trip, understand weather, pack warm clothes/extra food, share plans, take care.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -524,6 +856,70 @@
         </p>
       </div>
 
+      <!-- ABOUT MOTUIHE | TE MOTU-A-IHENGA SECTION WITH DOC YOUTUBE VIDEO AND BIOSECURITY VIDEO -->
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsNavy-800 shadow-sm space-y-4">
+        <div class="border-b border-whsBlue-50 pb-2">
+          <h3 class="font-display font-extrabold text-xl text-whsNavy-900">About Motuihe | Te Motu-a-Ihenga</h3>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Text Information Column -->
+          <div class="lg:col-span-7 space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p>An island paradise situated in the Hauraki Gulf, a leisurely trip of 1hr by Red Boats. Motuihe Island is now home to native New Zealand flora and fauna such as the little spotted kiwi, saddleback, kakariki, bellbirds, whiteheads, shore skinks, common gecko, duvaucel gecko and tuatara to name a few.</p>
+            <p>Motuihe Restoration is a conservation project run in partnership between Motuihe Trust and the Department of Conservation to transform Motuihe Island into an authentic natural environment of beaches, native forests, wetlands and open spaces together with rare and endangered native birds and insects.</p>
+            <p>Motuihe Project was established in 2000 by members of the community in conjunction with the DOC. It was inspired by the vision of the island’s resident concessionaire, Ronnie Harrison. A community trust was formed and a Restoration Plan devised to drive the restoration of New Zealand’s unique flora and fauna to this island. Since then thousands of native trees have been planted to regenerate the islands once thick forests.</p>
+            
+            <div class="pt-2 border-t border-whsBlue-50 space-y-2">
+              <h4 class="font-display font-bold text-base text-whsNavy-900">History</h4>
+              <p>Archaeological evidence so far observed and recorded indicates that Motuihe was likely settled at the time of early Polynesian settlement around the thirteenth century AD.</p>
+              <p>There are approximately 63 recorded archaeological sites on Motuihe which relate to Māori settlement including quarrying sites, crop storage pits and two pā called Te Rae o Kahu, Mangoparerua and Te Tumurae. Between 1837 and 1840 the island was sold four times, resulting from a change of Māori ownership to European. The motu was then farmed from 1843-1872, until it was purchased for a quarantine station in 1872. The island was farmed with horses, cattle, pigs, fowl and game.</p>
+              <p>During the First World War, the Motuihe Quarantine Station was repurposed as an internment camp. It was first used as a camp for ‘first class’ prisoners, women and children, while those of the ‘second class’ and destitute were sent to Somes Island in Wellington. As the war progressed ‘working class’ prisoners were also interned on Motuihe. Public access to Motuihe again became available in the summer of 1948-1949 after joint use with the Navy had been negotiated. A decision was made to return the island for use as a recreation reserve.</p>
+            </div>
+          </div>
+
+          <!-- Department of Conservation YouTube Video Column -->
+          <div class="lg:col-span-5 space-y-4">
+            
+            <!-- Video 1: Motuihe Sanctuary Video -->
+            <div class="space-y-1">
+              <div class="bg-whsNavy-900 rounded-2xl p-2 shadow-md border border-whsNavy-800">
+                <div class="w-full aspect-video rounded-xl overflow-hidden shadow-inner bg-black">
+                  <iframe 
+                    class="w-full h-full border-0" 
+                    src="https://www.youtube-nocookie.com/embed/aNkN2YYb5tw?referrerpolicy=strict-origin-when-cross-origin" 
+                    title="Motuihe Island Recreation Reserve - Department of Conservation Video" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 italic text-center">Video: Department of Conservation Motuihe Sanctuary Overview</p>
+            </div>
+
+            <!-- Video 2: DOC Biosecurity Video -->
+            <div class="space-y-1">
+              <div class="bg-whsNavy-900 rounded-2xl p-2 shadow-md border border-whsNavy-800">
+                <div class="w-full aspect-video rounded-xl overflow-hidden shadow-inner bg-black">
+                  <iframe 
+                    class="w-full h-full border-0" 
+                    src="https://www.youtube-nocookie.com/embed/shfLAo1faLM?referrerpolicy=strict-origin-when-cross-origin" 
+                    title="Biosecurity from DOC - Hauraki Gulf Pest-Free Islands" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 italic text-center">Video: Department of Conservation Island Biosecurity Guidelines</p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
       <!-- PHOTO GALLERY GRID -->
       <div class="bg-white p-6 rounded-2xl border border-whsBlue-100 shadow-sm space-y-4">
         <div class="flex items-center justify-between border-b border-whsBlue-50 pb-2">
@@ -535,7 +931,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
             <img src="20260306_104832.jpg" alt="Year 8 Group Photo on Motuihe Island" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
-            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">Year 8 Group Photo at Motuihe Island[cite: 3]</div>
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">Year 8 Group Photo at Motuihe Island</div>
           </div>
           <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
             <img src="20260305_121803.jpg" alt="Student fishing on the wharf" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
@@ -543,11 +939,11 @@
           </div>
           <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
             <img src="20260305_085629.jpg" alt="Reo Moana Ferry Transit" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
-            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">Ferry Transit aboard 'Reo Moana'[cite: 4]</div>
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">Ferry Transit aboard 'Reo Moana'</div>
           </div>
           <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
             <img src="20260305_192746.jpg" alt="Students checking predator traps" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
-            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">Predator-Free Sanctuary Trap Audits[cite: 2]</div>
+            <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">Predator-Free Sanctuary Trap Audits</div>
           </div>
           <div class="group relative rounded-xl overflow-hidden border border-whsBlue-100 shadow-sm bg-slate-100">
             <img src="20260305_203402.jpg" alt="Native Wildlife Tuatara Observation" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
@@ -557,6 +953,81 @@
             <img src="20260305_140035.jpg" alt="Outdoor Team Games" class="w-full h-56 object-cover group-hover:scale-105 transition duration-300">
             <div class="p-2.5 bg-white text-xs font-bold text-whsNavy-900 border-t border-whsBlue-50">Coastal Teambuilding & Beach Games</div>
           </div>
+        </div>
+      </div>
+
+      <!-- TRAIL MAP & TRACK SPECS SECTION: MOTUIHE ISLAND -->
+      <div class="bg-white rounded-2xl p-6 border border-whsBlue-100 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-whsBlue-50 pb-3">
+          <div>
+            <h3 class="font-display font-bold text-lg text-whsNavy-900 flex items-center gap-2">
+              <span>🗺️</span> <span>Motuihe Island Trail Map & Official Track Specs</span>
+            </h3>
+            <p class="text-xs text-slate-500">Official Department of Conservation (DOC) & Motuihe Trust trail network map and walking specifications.</p>
+          </div>
+          <a href="https://www.doc.govt.nz/parks-and-recreation/places-to-go/auckland/places/motuihe-island-recreation-reserve/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-whsBlue-600 hover:bg-whsBlue-500 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition shadow">
+            <span>DOC Reserve Portal</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Column 1: Map Image Column -->
+          <div class="lg:col-span-6 bg-slate-100 border border-whsBlue-100 rounded-xl overflow-hidden shadow-sm p-2 text-center">
+            <img 
+              src="Screenshot 2026-09-18 122916.jpg" 
+              alt="Motuihe Island Official DOC Trail Map" 
+              class="w-full h-auto object-contain max-h-96 mx-auto rounded-lg">
+            <p class="text-[11px] text-slate-500 italic pt-2">Official DOC & Motuihe Trust Island Trail Map (Te Motu-a-Ihenga)</p>
+          </div>
+
+          <!-- Column 2: Track Specifications List -->
+          <div class="lg:col-span-6 space-y-3">
+            <h4 class="font-bold text-sm text-whsNavy-900 border-b border-whsBlue-50 pb-2">Official DOC Track Specifications</h4>
+            
+            <div class="space-y-2.5">
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Tieke Track</span>
+                  <span class="text-whsBlue-600">1.5–2.5 hrs / 5 km return</span>
+                </div>
+                <p class="text-slate-600">Passes 2003 plantings & ancient native canopy home to rare tieke (saddleback), pancake limestone formations, and Gulf lookout seats.</p>
+              </div>
+
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Eastern Beaches Track</span>
+                  <span class="text-whsBlue-600">1.5–2.5 hrs / 5.5 km return</span>
+                </div>
+                <p class="text-slate-600">Easy mown-grass loop providing access to Ocean Beach, Snapper Bay, Calypso Bay, and Ohinerau Bay with sheltered picnic spots.</p>
+              </div>
+
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Bald Knob Track</span>
+                  <span class="text-whsBlue-600">2–3 hrs / 6.5 km return</span>
+                </div>
+                <p class="text-slate-600">Follows southern ridgeline to secluded sandy beaches, featuring 360° Hauraki Gulf views across Wharf Bay to Rangitoto.</p>
+              </div>
+
+              <div class="p-3 bg-whsBlue-50 rounded-xl border border-whsBlue-100 text-xs space-y-1">
+                <div class="flex justify-between font-bold text-whsNavy-900">
+                  <span>Headland Heritage Walk</span>
+                  <span class="text-whsBlue-600">20–45 mins / 1 km return</span>
+                </div>
+                <p class="text-slate-600">Sealed road passing 1860s olive groves leading up to the historic 1918 Spanish Flu cemetery at the northern tip.</p>
+              </div>
+            </div>
+
+            <div class="bg-whsNavy-900 text-white p-3.5 rounded-xl space-y-1 text-xs border border-whsNavy-800">
+              <h5 class="font-bold text-whsSky-300">DOC Environmental & Island Biosecurity Rules</h5>
+              <p class="text-[11px] text-whsBlue-100">
+                <strong>Pest-Free Sanctuary:</strong> Strict prohibition on dogs, fires, dirt on shoes, unsealed food bags, or introduced pests.
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -634,6 +1105,66 @@
         <p class="text-whsBlue-100 text-sm max-w-3xl leading-relaxed">
           High adventure, ropes courses, cliff abseiling, WWII underground military bunker exploration, and coastal team challenges.
         </p>
+      </div>
+
+      <!-- ABOUT MOTUTAPU SECTION WITH YOUTUBE VIDEOS -->
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsSky-400 shadow-sm space-y-4">
+        <div class="border-b border-whsBlue-50 pb-2">
+          <h3 class="font-display font-extrabold text-xl text-whsNavy-900">About Motutapu</h3>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Text Information Column -->
+          <div class="lg:col-span-7 space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p>Motutapu is a taonga with many historical and natural places. It was declared pest-free in 2011 after a four year eradication programme which has created a safe haven for our precious flora and fauna in New Zealand — both land, sky and sea. Since 1993, the collective effort within Motutapu Restoration Trust has restored the island from stripped pasture due to farming, to incredible forest and bush regeneration for all native species to thrive. Motutapu Island adjoins Rangitoto which is home to the world’s largest pohutukawa forest. Volunteers have planted 450,000 native trees. There are four different habitat types that support our most loved wildlife and some of NZ’s rarest, flightless birds. Birds commonly found include Coromandel Brown Kiwi thanks to Kiwis for kiwi and takahē thanks to the Takahē Recovery Programme. Pāteke/brown teal are the rarest waterfowl on the mainland but also call Motutapu Home, as well as five native lizard species, freshwater crayfish and NZ’s native eel. The 100th brown kiwi was recently released on Motutapu Island as part of the programme Operation Nest Egg run by Kiwis for Kiwi. These kiwi are placed in a burrow in native forest planted by Motutapu Restoration Trust volunteers.</p>
+            
+            <div class="pt-2 border-t border-whsBlue-50 space-y-2">
+              <h4 class="font-display font-bold text-base text-whsNavy-900">History</h4>
+              <p>Motutapu Island has a rich history. It was first considered a sacred place by local iwi when Maori were living there even before Rangitoto emerged from the sea 600 years ago. After Motutapu was passed onto European ownership, farming began on the island in 1840 before it was used as Military Base in WWII. Today, it’s a scenic reserve for people to enjoy and look after. With 178 million years of history, Motutapu is considered one of the earliest places that was inhabited. It has more than 300 Maori pā, kainga, kumara storage pits, former gardens and archeological sites, as well as evidence that settlers witnessed Rangitoto Island erupting 600 years ago. Archeologists have found the footprints of people and dogs preserved in solidified ash layers after Maori returned to Motutapu between eruptions. Ngati Tai is the principal iwi with features of Arawa and Tainui traditions. In 1840 Europeans claimed ownership of Motutapu Island, and homesteads were established at Emu Bay and Home Bay. Tall Norfolk pines and other exotic trees were planted after deforestation following the eruption, and extensive farming began. The last farmhouse was a villa built in 1901 for the Reid Family, which still remains preserved on the island as a reminder of the homesteads once seen on the shores. Deer, wallabies, and other exotic animals were introduced to Motutapu Island as a visitor attraction in the 1860s and by the early 20th century it had become a popular visitor destination (hosting Victorian picnic parties of over 10,000 people).</p>
+            </div>
+          </div>
+
+          <!-- YouTube Video Column -->
+          <div class="lg:col-span-5 space-y-4">
+            
+            <!-- Video 1: Biosecurity from DOC -->
+            <div class="space-y-1">
+              <div class="bg-whsNavy-900 rounded-2xl p-2 shadow-md border border-whsNavy-800">
+                <div class="w-full aspect-video rounded-xl overflow-hidden shadow-inner bg-black">
+                  <iframe 
+                    class="w-full h-full border-0" 
+                    src="https://www.youtube-nocookie.com/embed/shfLAo1faLM?referrerpolicy=strict-origin-when-cross-origin" 
+                    title="Biosecurity from DOC - Hauraki Gulf Pest-Free Islands" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 italic text-center">Video: Department of Conservation Island Biosecurity Guidelines</p>
+            </div>
+
+            <!-- Video 2: Motutapu Outdoor Education Centre -->
+            <div class="space-y-1">
+              <div class="bg-whsNavy-900 rounded-2xl p-2 shadow-md border border-whsNavy-800">
+                <div class="w-full aspect-video rounded-xl overflow-hidden shadow-inner bg-black">
+                  <iframe 
+                    class="w-full h-full border-0" 
+                    src="https://www.youtube-nocookie.com/embed/C9EF8bO1Mq8?referrerpolicy=strict-origin-when-cross-origin" 
+                    title="Motutapu Outdoor Education Centre - Main Camp Video" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 italic text-center">Video: Motutapu Outdoor Education Centre (MOEC) Overview</p>
+            </div>
+
+          </div>
+
+        </div>
       </div>
 
       <!-- YEAR 9 PHOTO GALLERY GRID -->
@@ -747,6 +1278,71 @@
         <p class="text-whsBlue-100 text-sm max-w-3xl leading-relaxed">
           The flagship junior expedition traversing Mt Hobson summit (Hirakimata 621m), Windy Canyon ravines, and Kaitoke Hot Springs.
         </p>
+      </div>
+
+      <!-- ABOUT AOTEA | GREAT BARRIER ISLAND SECTION WITH YOUTUBE VIDEOS -->
+      <div class="bg-white rounded-2xl p-6 border-2 border-whsNavy-950 shadow-sm space-y-4">
+        <div class="border-b border-whsBlue-50 pb-2">
+          <h3 class="font-display font-extrabold text-xl text-whsNavy-900">About Aotea | Great Barrier Island</h3>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Text Information Column -->
+          <div class="lg:col-span-7 space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p>Great Barrier Island is the largest and most seaward of the Hauraki Gulf islands in the Auckland region. For thousands of years, it has sheltered Auckland's harbour from the relentless swells of the Pacific Ocean, creating a boating paradise.</p>
+            <p>The 90 kilometre journey from Auckland city takes about 4.5 hours by ferry or you can catch a 30-minute flight with Barrier Air to the remote location.</p>
+            <p>The eastern shore of Great Barrier Island faces the ocean with high cliffs and long white surf beaches; the western side offers deep sheltered harbours and calm sandy bays.</p>
+            <p>More than 60 percent of Great barrier Island's 285 square kilometres is public land administered by the Department of Conservation. The native forest is laced with beautiful walking tracks, which lead to secluded natural hot springs and a historic Kauri dam. These wilderness areas, foreshores, and estuaries are home to several unique plant and bird species. Rising 627 metres above the sea, Hirakimata (Mount Hobson) beckons the hiker with the promise of incredible 360-degree views. The island is entirely off-grid relying on renewable solar power and collection of freshwater. With a population of around 1000 people, the locals are sure to welcome you to their vibrant, self-sufficient community.</p>
+            
+            <div class="pt-2 border-t border-whsBlue-50 space-y-2">
+              <h4 class="font-display font-bold text-base text-whsNavy-900">History</h4>
+              <p>Aotea/Great Barrier Island has a rich history. It dates back to the very first settlement of New Zealand by the East Polynesian ancestors of today’s Maori population Ngāti Rehua Ngātiwai ki Aotea, who trace their ancestry over many centuries to the original inhabitants. Throughout the Polynesian migratory age, many ancestral waka landed on the shores of Aotea, guided by the constellations. The first Polynesian wayfinder, Kupe, landed on our shores, calling it Okupe. Over the years this has changed to Okupu, still a name for one of our settlements now.</p>
+              <p>Captain James Cook charted the New Zealand Coast as part of his 1768-1771 expedition to observe the transit of Venus across the Sun. He named the island Great Barrier in 1769 for the shelter and protection it provides to the Hauraki Gulf. From the 1840s, the Island’s natural resources attracted European settlement. A number of boom and bust industries exploited the Island’s mature kauri forests, minerals (copper, silver, gold) and migrating whales.</p>
+              <p>Descendants of the early European settler families still live on Great Barrier Island. Roads are named after the Blackwells, Medlands, Sandersons and Grays, and some families have been continuously on the island for more than 150 years. Old homesteads can still be seen with Ollies Cottage, built in the 1860s, still standing at Puriri Bay and homesteads at Harataonga, Tryphena, and Port Fitzroy reminding visitors of colonial times. Tryphena School was built in 1884 and is now used as a community service building.</p>
+            </div>
+          </div>
+
+          <!-- YouTube Video Column -->
+          <div class="lg:col-span-5 space-y-4">
+            
+            <!-- Video 1: Department of Conservation Aotea Video -->
+            <div class="space-y-1">
+              <div class="bg-whsNavy-900 rounded-2xl p-2 shadow-md border border-whsNavy-800">
+                <div class="w-full aspect-video rounded-xl overflow-hidden shadow-inner bg-black">
+                  <iframe 
+                    class="w-full h-full border-0" 
+                    src="https://www.youtube-nocookie.com/embed/YOjscgpOf9Y?referrerpolicy=strict-origin-when-cross-origin" 
+                    title="Department of Conservation - Aotea / Great Barrier Island Overview" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 italic text-center">Video: Department of Conservation Aotea Wilderness Guide</p>
+            </div>
+
+            <!-- Video 2: Aerial Footage of Aotea / Great Barrier Island -->
+            <div class="space-y-1">
+              <div class="bg-whsNavy-900 rounded-2xl p-2 shadow-md border border-whsNavy-800">
+                <div class="w-full aspect-video rounded-xl overflow-hidden shadow-inner bg-black">
+                  <iframe 
+                    class="w-full h-full border-0" 
+                    src="https://www.youtube-nocookie.com/embed/GkdchqZEn1U?referrerpolicy=strict-origin-when-cross-origin" 
+                    title="Aerial Tour - Great Barrier Island / Aotea" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 italic text-center">Video: Aerial Overview of Great Barrier Island Sanctuary</p>
+            </div>
+
+          </div>
+
+        </div>
       </div>
 
       <!-- YEAR 10 PHOTO GALLERY GRID -->
@@ -911,7 +1507,7 @@
 
             <div id="biosecurity-token-output" class="hidden p-3 bg-whsBlue-50 border border-whsBlue-400 rounded-xl text-center text-xs space-y-1">
               <p class="font-bold text-whsNavy-900">✅ DOC BIOSECURITY PASSED</p>
-              <p class="font-mono text-xs text-whsBlue-600" id="pass-code-display">PASS-WHS-2026-9042</p>
+              <p class="font-mono text-xs text-whsBlue-600" id="pass-code-display">PASS-DOC-2026-9042</p>
             </div>
           </div>
         </div>
@@ -1024,7 +1620,28 @@
     document.addEventListener("DOMContentLoaded", () => {
       initProgressionChart('radar');
       renderPackingList();
+      fetchLivePressure();
     });
+
+    async function fetchLivePressure() {
+      try {
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-36.78&longitude=175.10&current_weather=true&hourly=surface_pressure');
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.hourly && data.hourly.surface_pressure) {
+            const currentPressure = data.hourly.surface_pressure[0];
+            document.getElementById('live-pressure-val').innerText = currentPressure.toFixed(1);
+            
+            let statusText = "Stable Barometric Pressure";
+            if (currentPressure < 1008) statusText = "Low Pressure (Unsettled Weather)";
+            else if (currentPressure > 1020) statusText = "High Pressure (Clear/Fine Weather)";
+            document.getElementById('live-pressure-state').innerText = statusText;
+          }
+        }
+      } catch (e) {
+        console.log("Using static MetService telemetry snapshot.");
+      }
+    }
 
     function switchTab(tabId) {
       activeTab = tabId;
